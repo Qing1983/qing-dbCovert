@@ -224,7 +224,7 @@ public class DBVo {
         try {
 
             dbmd = conn.getMetaData();
-            ResultSet resultSet = dbmd.getTables(null, "%", "%", new String[]{"TABLE"});
+            ResultSet resultSet = dbmd.getTables(null, null, null, new String[]{"TABLE","VIEW"});
 
             while (resultSet.next()) {
                 TableVo tableVo = new TableVo();
@@ -236,6 +236,7 @@ public class DBVo {
 
                 tableVo.setTableName(tableName);
                 tableVo.setLowerCaseTableName(tableName.toLowerCase());
+                tableVo.setTalbleRemarks(tableRemarks);
                 ResultSet rs = conn.getMetaData().getColumns(null, null, tableName, "%");
                 while (rs.next()) {
                     ColumnVo columnVo = new ColumnVo(rs,tableVo);
