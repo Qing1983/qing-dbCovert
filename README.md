@@ -92,9 +92,8 @@ DatabaseMetaData metaData = conn.getMetaData();
 // ResultSet rs = metaData.getColumns (conn.getCatalog(), "SCOTT", "EMP", "SAL");
 
 ResultSet rs = metaData.getColumns(conn.getCatalog(), "root", "book", "book_id");
-
-   while(rs.next()) {     System.out.println(rs.getString("COLUMN_NAME"));
-
-   }
+while(rs.next()) {     
+   System.out.println(rs.getString("COLUMN_NAME"));
+}
 
   
