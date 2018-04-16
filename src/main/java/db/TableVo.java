@@ -75,7 +75,8 @@ public class TableVo {
             {
                 sql += ", \n";
             }
-            //sql += "\t"+curColumnVo.get;
+            sql += "\t"+curColumnVo.getMysqlColumnText();
+            sql += " "+curColumnVo.getMysqlColumnRemarkText();
         }
 
         // 添加主键
@@ -93,17 +94,13 @@ public class TableVo {
             {
                 sql += ", ";
             }
-            sql += primaryKeyVo.getColumnName();
+            sql += "`"+primaryKeyVo.getOrginColumnName()+"`";
         }
         sql += ")";
 
         sql += "\n);\r\n";
 
-        for (ColumnVo curColumnVo : columnVoList) {
-
-            sql += curColumnVo.getPgsqlColumnRemarkText()+"\r\n";
-        }
-        
+       
         return sql;
     }
     

@@ -271,6 +271,24 @@ public class DBVo {
 
     }
 
+    /**
+     * 获取mysql schema语句
+     * @return
+     */
+    public String getMysqlSchema() {
+    	 String mysqlSchemaSql = "";
+
+         for (TableVo tableVo : tableVoList)
+         {
+        	 mysqlSchemaSql+=tableVo.getMysqlSchema();
+         }
+         return mysqlSchemaSql;
+    }
+    
+    /**
+     * 获取pgsql schema语句
+     * @return
+     */
     public String getPgsqlSchema(){
 
         String pgsqlSchemaSql = "";
@@ -281,6 +299,7 @@ public class DBVo {
         }
         return pgsqlSchemaSql;
     }
+    
     
     public String getPgsqlDataSchema(){
     	return null;

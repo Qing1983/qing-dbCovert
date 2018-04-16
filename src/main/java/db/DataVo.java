@@ -12,16 +12,16 @@ import tool.ColumnUtil;
 public class DataVo {
 
 	private static final Logger log = LoggerFactory.getLogger(DataVo.class);
-	
+
 	private ResultSet rs;
 	private String tableName;
-	
-	public DataVo(ResultSet rs,String tableName){
+
+	public DataVo(ResultSet rs, String tableName) {
 		this.rs = rs;
 		this.tableName = tableName;
 	}
-	
-	public String getPgsqlColumnText() throws SQLException{
+
+	public String getPgsqlColumnText() throws SQLException {
 		String insertHead = "INSERT INTO " + tableName + "(";
 		String insertTail = ") VALUES (";
 		ResultSetMetaData rsmd = rs.getMetaData();
