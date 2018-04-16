@@ -5,10 +5,10 @@
 # mysql数据库到pgsql的数据库的转换。
 
 # todo
-[] 可以配置数据库列表  
-[] mysql数据库生成mysql数据库语句, 建表生成注释   
-[] mysql数据库生成数据字典   
-[] mysql数据库到mysql数据库的迁移   
+[ ] 可以配置数据库列表  
+[ ] mysql数据库生成mysql数据库语句, 建表生成注释   
+[ ] mysql数据库生成数据字典   
+[ ] mysql数据库到mysql数据库的迁移   
 
 1.表转换
 提供把mysql数据库的表转换为pgsql中的数据库表，并可以在控制台生成建表语句。
@@ -89,11 +89,9 @@ NO --- 如果该列不自动增加
 
 DatabaseMetaData metaData = conn.getMetaData();
 
-// ResultSet rs = metaData.getColumns (conn.getCatalog(), "SCOTT", "EMP", "SAL");
-
-ResultSet rs = metaData.getColumns(conn.getCatalog(), "root", "book", "book_id");
+ResultSet rs = conn.getMetaData().getColumns(null, null, tableName, "%");
 while(rs.next()) {     
-   System.out.println(rs.getString("COLUMN_NAME"));
+   log.info(rs.getString("COLUMN_NAME"));
 }
 
   
