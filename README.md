@@ -4,6 +4,12 @@
 
 # mysql数据库到pgsql的数据库的转换。
 
+# todo
+[] 可以配置数据库列表  
+[] mysql数据库生成mysql数据库语句, 建表生成注释   
+[] mysql数据库生成数据字典   
+[] mysql数据库到mysql数据库的迁移   
+
 1.表转换
 提供把mysql数据库的表转换为pgsql中的数据库表，并可以在控制台生成建表语句。
 
@@ -12,9 +18,7 @@
 
 获取数据库指定表的所有列及相应的信息：
 
-(以MySQL和Oracle为例，其他类型的数据库接触不多，不做解释)
-
-Connection接口中提供了DatabaseMetaData接口：
+访问MySQL,在Connection接口中提供了DatabaseMetaData接口：
 
 提供：getColumns()方法，该方法需要传进4个参数：
 
@@ -93,8 +97,4 @@ ResultSet rs = metaData.getColumns(conn.getCatalog(), "root", "book", "book_id")
 
    }
 
-# todo
-[] 可以配置数据库列表  
-[] mysql数据库生成mysql数据库语句, 建表生成注释   
-[] mysql数据库生成数据字典   
-[] mysql数据库到mysql数据库的迁移     
+  
