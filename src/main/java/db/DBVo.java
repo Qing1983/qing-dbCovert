@@ -228,11 +228,14 @@ public class DBVo {
 
             while (resultSet.next()) {
                 TableVo tableVo = new TableVo();
-                String tableName = resultSet.getString("TABLE_NAME");
+                String tableName = resultSet.getString("TABLE_NAME");  // 表名称
+                String tableType = resultSet.getString("TABLE_TYPE");  // 表类型    
+                String tableRemarks = resultSet.getString("REMARKS");       // 表备注 
                 log.debug(tableName);
 
 
                 tableVo.setTableName(tableName);
+                tableVo.setLowerCaseTableName(tableName.toLowerCase());
                 ResultSet rs = conn.getMetaData().getColumns(null, null, tableName, "%");
                 while (rs.next()) {
                     ColumnVo columnVo = new ColumnVo(rs,tableVo);

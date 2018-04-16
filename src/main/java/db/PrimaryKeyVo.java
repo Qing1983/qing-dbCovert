@@ -42,6 +42,16 @@ public class PrimaryKeyVo {
 
 	private String orginColumnName;
 	
+	private String lowerCaseOrginColumnName;
+	
+	public String getLowerCaseOrginColumnName() {
+		return lowerCaseOrginColumnName;
+	}
+
+	public void setLowerCaseOrginColumnName(String lowerCaseOrginColumnName) {
+		this.lowerCaseOrginColumnName = lowerCaseOrginColumnName;
+	}
+
 	public void setOrginColumnName(String orginColumnName) {
 		this.orginColumnName = orginColumnName;
 	}
@@ -52,6 +62,7 @@ public class PrimaryKeyVo {
 			this.tableSchem = rs.getString("TABLE_SCHEM");
 			this.tableName = rs.getString("TABLE_NAME");
 			this.orginColumnName = rs.getString("COLUMN_NAME");
+			this.lowerCaseOrginColumnName = this.orginColumnName.toLowerCase();
 			this.columnName = ColumnUtil.camelToUnderline(this.orginColumnName);
 			this.keySeq = rs.getShort("KEY_SEQ");
 			this.pkName = rs.getString("PK_NAME");

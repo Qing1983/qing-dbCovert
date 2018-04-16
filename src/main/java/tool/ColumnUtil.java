@@ -6,7 +6,8 @@ import java.util.regex.Pattern;
 public class ColumnUtil {
 
 	public static final char UNDERLINE = '_';
-
+	
+	
 	public static String camelToUnderline(String param) {
 		if (param == null || "".equals(param.trim())) {
 			return "";

@@ -21,6 +21,7 @@ public class ColumnVo {
 			this.tableName = rs.getString("TABLE_NAME");
 			// mysql 驼峰转下划线
 			this.orginColumnName = rs.getString("COLUMN_NAME");
+			this.lowerCaseOrginColumnName = this.orginColumnName.toLowerCase();
 			this.columnName = ColumnUtil.camelToUnderline(this.orginColumnName);
 
 			this.dataType = rs.getInt("DATA_TYPE");
@@ -89,6 +90,10 @@ public class ColumnVo {
 	private String columnName;
 
 	private String orginColumnName;
+	
+	private String lowerCaseOrginColumnName;
+
+
 	/*
 	 * 5.DATA_TYPE int => SQL type from Java.sql.Types(列的数据类型)
 	 */
@@ -315,11 +320,23 @@ public class ColumnVo {
 	public void setIsAutoIncrement(String isAutoIncrement) {
 		this.isAutoIncrement = isAutoIncrement;
 	}
+	
+	public String getLowerCaseOrginColumnName() {
+		return lowerCaseOrginColumnName;
+	}
+
+	public void setLowerCaseOrginColumnName(String lowerCaseOrginColumnName) {
+		this.lowerCaseOrginColumnName = lowerCaseOrginColumnName;
+	}
+	
 
 	public String toJson() {
 		return JsonTool.toJSON(this);
 	}
 
+	/*
+	 * pgsql begin
+	 */
 	public String getPgsqlColumnRemarkText() {
 		return "COMMENT ON COLUMN " + this.tableName + "." + this.columnName + " IS \'" + this.remarks + "\';";
 	}
@@ -419,68 +436,70 @@ public class ColumnVo {
 		}
 		return pgsqlColumText;
 	}
-
+	/*
+	 * pgsql end
+	 */
+	
+	/*
+	 * mysql start
+	 */
+	
+	public String getMysqlColumnRemarkText() {
+		return "comment '" + this.remarks +"'";
+	}
+	
 	public String getMysqlColumnText() {
 		typeName = typeName.toUpperCase();
 
 		String mysqlTypeName = typeName;
-		String mysqlColumText = "`"+this.orginColumnName + "` ";
+		String mysqlColumText = "`"+this.lowerCaseOrginColumnName + "` ";
 		if ("YES".compareTo(this.isAutoIncrement) == 0) {
 			tableVo.setIdColumn(this.columnName);
 		}
 		switch (typeName) {
 
+		
 		case "TINYINT":
-			if ("YES".compareTo(this.isAutoIncrement) == 0) {
-				mysqlTypeName = "SMALLSERIAL";
-				mysqlColumText += mysqlTypeName;
-
-			} else {
-				mysqlTypeName = "SMALLINT";
-				mysqlColumText += mysqlTypeName+ "(" + this.decimalDigits + ")";
-			}
-			break;
-
 		case "INT":
 		case "INTEGER":
-		case "INT UNSIGNED":
 		case "BIGINT":
+		case "INT UNSIGNED":
+			mysqlTypeName = mysqlTypeName.toLowerCase();
+			mysqlColumText += mysqlTypeName  ;
 			if ("YES".compareTo(this.isAutoIncrement) == 0) {
-				mysqlTypeName = "INTEGER";
-				mysqlColumText += mysqlTypeName + "(" + this.decimalDigits + ")";
-				mysqlTypeName = "AUTO_INCREMENT";
-			} else {
-				mysqlTypeName = "INTEGER";
-				mysqlColumText += mysqlTypeName + "(" + this.decimalDigits + ")";
-			}
+				
+				mysqlColumText += " auto_increment"; 
+			} 
 			break;
+		
+			
 
 		case "BIT":
 			// MYSQL的BIT要对应PGSQL的boolean!
-			mysqlColumText += mysqlTypeName;
+			mysqlColumText += mysqlTypeName.toLowerCase();
 			break;
 
 		case "VARCHAR":
 		case "VARCHAR2":
 		case "CHAR":
-			mysqlTypeName = "VARCHAR";
+			mysqlTypeName = mysqlTypeName.toLowerCase();
 			mysqlColumText += mysqlTypeName + "(" + this.charOctetLength + ")";
 			break;
-
+		
 		case "NUMBER":
 		case "DECIMAL":
-			mysqlTypeName = "DECIMAL";
-			mysqlColumText += mysqlTypeName;
+			mysqlTypeName = mysqlTypeName.toLowerCase();
+			mysqlColumText += mysqlTypeName+ "(" + this.decimalDigits + ")";
 			break;
 
 		case "DATETIME":
 		case "TIMESTAMP":
-			mysqlTypeName = "TIMESTAMP";
+			mysqlTypeName = mysqlTypeName.toLowerCase();
 			mysqlColumText += mysqlTypeName;
 			break;
 
 		case "DATE":
-			mysqlTypeName = "DATE";
+			mysqlTypeName = mysqlTypeName.toLowerCase();
 			mysqlColumText += mysqlTypeName;
 			break;
 
@@ -491,23 +510,23 @@ public class ColumnVo {
 
 
 		if ("NO".compareTo(this.isNullable) == 0) {
-			mysqlColumText += " NOT NULL";
+			mysqlColumText += " not null";
 		}
 		if (this.columnDef != null) {
 			if (typeName.equals("BIT") && columnDef.equals("1")) {
-				mysqlColumText += " DEFAULT TRUE";
+				mysqlColumText += " default true";
 			} else if (typeName.equals("BIT") && columnDef.equals("0")) {
-				mysqlColumText += " DEFAULT FALSE";
-			} else if (mysqlTypeName.equals("VARCHAR")) {
-				mysqlColumText += " DEFAULT '" + this.columnDef + "'";
+				mysqlColumText += " default false";
+			} else if (mysqlTypeName.equals("varchar") || mysqlTypeName.equals("char") ||mysqlTypeName.equals("vchar")) {
+				mysqlColumText += " default '" + this.columnDef + "'";
 			} else {
-				mysqlColumText += " DEFAULT " + this.columnDef;
+				mysqlColumText += " default " + this.columnDef;
 			}
 		}
 		return mysqlColumText;
 	}
 
-	public String getMysqlColumnRemarkText() {
-		return "COMMENT `" + this.remarks +"`";
-	}
+	/*
+	 * mysql end
+	 */
 }
