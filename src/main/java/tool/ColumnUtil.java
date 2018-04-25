@@ -6,16 +6,29 @@ import java.util.regex.Pattern;
 public class ColumnUtil {
 
 	public static final char UNDERLINE = '_';
-	
-	
-	public static String camelToUnderline(String param) {
-		if (param == null || "".equals(param.trim())) {
+
+	// 判断是否是驼峰
+	public static boolean isCamel(String text) {
+		if (text == null || text.contains("_")) {
+			return false;
+		}
+		
+		return true;
+	}
+
+	public static String toUnderline(String text) {
+
+		if (text == null || "".equals(text.trim())) {
 			return "";
 		}
-		int len = param.length();
+		if (!isCamel(text)) {
+			return text;
+		}
+
+		int len = text.length();
 		StringBuilder sb = new StringBuilder(len);
 		for (int i = 0; i < len; i++) {
-			char c = param.charAt(i);
+			char c = text.charAt(i);
 			if (Character.isUpperCase(c)) {
 				sb.append(UNDERLINE);
 				sb.append(Character.toLowerCase(c));
@@ -26,17 +39,17 @@ public class ColumnUtil {
 		return sb.toString();
 	}
 
-	public static String underlineToCamel(String param) {
-		if (param == null || "".equals(param.trim())) {
+	public static String toCamel(String text) {
+		if (text == null || "".equals(text.trim())) {
 			return "";
 		}
-		int len = param.length();
+		int len = text.length();
 		StringBuilder sb = new StringBuilder(len);
 		for (int i = 0; i < len; i++) {
-			char c = param.charAt(i);
+			char c = text.charAt(i);
 			if (c == UNDERLINE) {
 				if (++i < len) {
-					sb.append(Character.toUpperCase(param.charAt(i)));
+					sb.append(Character.toUpperCase(text.charAt(i)));
 				}
 			} else {
 				sb.append(c);
@@ -45,20 +58,5 @@ public class ColumnUtil {
 		return sb.toString();
 	}
 
-	public static String underlineToCamel2(String param) {
-		if (param == null || "".equals(param.trim())) {
-			return "";
-		}
-		StringBuilder sb = new StringBuilder(param);
-		Matcher mc = Pattern.compile("_").matcher(param);
-		int i = 0;
-		while (mc.find()) {
-			int position = mc.end() - (i++);
-			// String.valueOf(Character.toUpperCase(sb.charAt(position)));
-			sb.replace(position - 1, position + 1, sb.substring(position, position + 1).toUpperCase());
-		}
-		return sb.toString();
-	}
 
-	
 }

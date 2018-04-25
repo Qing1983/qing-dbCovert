@@ -1,25 +1,21 @@
-package db;
+package db.model;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+
+@Data
+@Slf4j
 public class DBVo {
 
-    private static final Logger log = LoggerFactory.getLogger(DBVo.class);
+
 
     private List<TableVo> tableVoList = null;
 
@@ -44,172 +40,6 @@ public class DBVo {
     }
     
     /**
-     * 迁移数据
-     * @param conn
-     */
-    public void insertTableData(Connection dstConn,Connection srcConn){
-    	for(TableVo tableVo : tableVoList){
-    		try {
-    			long t0 = System.currentTimeMillis();
-    			
-    			//查询全表数据
-    			String query = "SELECT * FROM " + tableVo.getTableName();
-    			if (tableVo.getIdColumn() != null) {
-    				/*
-    				 * We assume the serial never overflows and starts again filling the
-    				 * holes...
-    				 */
-    				query += " ORDER BY " + tableVo.getIdColumn() + " ASC";
-    			}
-                ResultSet rs = srcConn.createStatement().executeQuery(query);
-                ResultSetMetaData rsmd = rs.getMetaData();
-                
-                //声明变量
-                int count = 0;
-                long lastIdValue = -1;
-                final int start = /* tableData.length > 1 ? 2 : */1;
-                
-    			//获取该表的insert语句
-                if(tableVo.getDataVo() == null){
-                	continue;
-                }
-				String insert = tableVo.getDataVo().getPgsqlColumnText();
-				
-				log.info(insert);
-				
-				//处理插入值
-				PreparedStatement pst = dstConn.prepareStatement(insert);
-				while (rs.next()) {
-					for (int i = start; i <= rsmd.getColumnCount(); i++) {
-						int j = /* tableData.length > 1 ? i - 1 : */i;
-						boolean wasNull = false;
-						switch (rsmd.getColumnType(i)) {
-							case Types.SMALLINT:
-							case Types.TINYINT:
-							case Types.INTEGER: {
-								Integer _int = rs.getInt(i);
-								wasNull = rs.wasNull();
-								if (!wasNull) {
-									pst.setInt(j, _int);
-									/*
-									 * If this is the id column, store its value as we'll need to
-									 * update the sequence.
-									 */
-									if (rsmd.getColumnName(i).equals(tableVo.getIdColumn()) && _int > lastIdValue) {
-										lastIdValue = _int;
-									}
-								}
-								break;
-							}
-							case Types.BIT: {
-								Boolean _ts = rs.getBoolean(i);
-								wasNull = rs.wasNull();
-								if (!wasNull) {
-									pst.setBoolean(j, _ts);
-								}
-								
-								break;
-							}
-							case Types.DATE: {
-								Date _ts = rs.getDate(i);
-								wasNull = rs.wasNull();
-								if (!wasNull) {
-									pst.setDate(j, _ts);
-								}
-								break;
-							}
-							case Types.TIMESTAMP: {
-								Timestamp _ts = rs.getTimestamp(i);
-								wasNull = rs.wasNull();
-								if (!wasNull) {
-									pst.setTimestamp(j, _ts);
-								}
-								break;
-							}
-							case Types.BOOLEAN: {
-								boolean _b = rs.getBoolean(i);
-								wasNull = rs.wasNull();
-								if (!wasNull) {
-									pst.setBoolean(j, _b);
-								}
-								break;
-							}
-							case Types.NUMERIC:
-							case Types.DECIMAL: {
-								BigDecimal _b = rs.getBigDecimal(i);
-								wasNull = rs.wasNull();
-								if (!wasNull) {
-									pst.setBigDecimal(j, _b);
-								}
-								break;
-							}
-							case Types.CHAR: 
-							case Types.VARCHAR:
-							case Types.LONGVARCHAR:{
-								String _str = rs.getString(i);
-								wasNull = rs.wasNull();
-								if (!wasNull) {
-									pst.setString(j, _str);
-								}
-								break;
-							}
-							default: {
-								log.info("Unhandled type: " + rsmd.getColumnTypeName(i) + " " + rsmd.getColumnType(i));
-								break;
-							}
-						} // end-switch.
-						if (wasNull) {
-							pst.setNull(j, rsmd.getColumnType(i));
-						}
-					} // end-for: colonne.
-					//pst.executeUpdate();
-					try {
-						pst.addBatch();
-						count++;
-						if (count % 500 == 0) {
-							pst.executeBatch();
-						}
-					} catch (SQLException sqlex) {
-						log.error("ERROR: " + sqlex.getMessage());
-						SQLException e = sqlex;
-						while (e.getNextException() != null) {
-							log.error("CAUSE: " + e.getNextException().getMessage());
-							e = e.getNextException();
-						}
-					}
-				}
-				/* Final execution */
-				try {
-					pst.executeBatch();
-				} catch (SQLException sqlex) {
-					log.error("ERROR: " + sqlex.getMessage());
-					SQLException e = sqlex;
-					while (e.getNextException() != null) {
-						log.error("CAUSE: " + e.getNextException().getMessage(),e);
-						e = e.getNextException();
-					}
-				}
-				
-				long t1 = System.currentTimeMillis();
-				log.info("[" + tableVo.getTableName() + "] " + (t1 - t0) + " ms.");
-				/* Update the sequence */
-				PreparedStatement dstSequence = dstConn.prepareStatement("SELECT setval(?, ?)");
-				if (tableVo.getIdColumn() != null && lastIdValue != -1) {
-					System.out.println("[" + tableVo.getTableName() + "] setting sequence to " + lastIdValue);
-					dstSequence.setString(1, tableVo.getTableName() + "_" + tableVo.getIdColumn() + "_seq");
-					dstSequence.setLong(2, lastIdValue);
-					dstSequence.execute();
-				}
-			} catch (SQLException e) {
-	            log.error("sql 异常",e);
-	        } catch (Exception e) {
-	            log.error("程序 异常",e);
-	        } 
-    	}
-    	
-    }
-
-    /**
      * 根据数据库的连接参数，获取指定表的基本信息：字段名、字段类型、字段注释
      *
      * @param table 表名
@@ -219,7 +49,6 @@ public class DBVo {
 
 
         DatabaseMetaData dbmd = null;
-
 
         try {
 
@@ -249,16 +78,9 @@ public class DBVo {
                     tableVo.addPrimaryKey(primaryKeyVo);
                 }
                 
-                //DataVo处理
-    			String query = "SELECT * FROM " + tableName + " LIMIT 0,1";
-                PreparedStatement preparedStatement = conn.prepareStatement(query);
-                rs = preparedStatement.executeQuery();
-                while(rs.next()){
-                	DataVo dataVo = new DataVo(rs,tableName);
-                	tableVo.setDataVo(dataVo);
-                }
+              
                 
-                log.debug(tableVo.getPgsqlSchema());
+
                 tableVoList.add(tableVo);
 
             }
@@ -275,40 +97,10 @@ public class DBVo {
 
     }
 
-    /**
-     * 获取mysql schema语句
-     * @return
-     */
-    public String getMysqlSchema() {
-    	 String mysqlSchemaSql = "";
-
-         for (TableVo tableVo : tableVoList)
-         {
-        	 mysqlSchemaSql+=tableVo.getMysqlSchema();
-         }
-         return mysqlSchemaSql;
-    }
     
-    /**
-     * 获取pgsql schema语句
-     * @return
-     */
-    public String getPgsqlSchema(){
-
-        String pgsqlSchemaSql = "";
-
-        for (TableVo tableVo : tableVoList)
-        {
-            pgsqlSchemaSql+=tableVo.getPgsqlSchema();
-        }
-        return pgsqlSchemaSql;
-    }
+  
     
     
-    public String getPgsqlDataSchema(){
-    	return null;
-    }
-
 
     /*
 

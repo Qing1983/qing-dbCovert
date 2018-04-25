@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import db.DBVo;
+import db.model.DBVo;
 import global.Config;
 
 public class Main {
@@ -23,33 +23,7 @@ public class Main {
 			return;
 		}
 
-		Connection srcConn = DriverManager.getConnection(global.Config.mysqlUrl, global.Config.mysqlUser,
-				global.Config.mysqlPassword);
-		// Connection dstConn = DriverManager.getConnection(global.Config.pgsqlUrl,
-		// global.Config.pgsqlUser, global.Config.pgsqlPassword);
-
-		DBVo dbVo = new DBVo();
-
-		dbVo.load(srcConn);
 		
-		log.info(dbVo.getMysqlSchema());
-
-		// Statement dstCreateTable = dstConn.createStatement();
-
-		/*
-		 * ResultSet rs = srcConn.getMetaData().getColumns(null, null, "sms_query",
-		 * "%");
-		 * 
-		 * while(rs.next()){ System.out.println(rs.getString("COLUMN_DEF")); }
-		 */
-
-		// 迁移表结构
-		// dstCreateTable.executeUpdate(dbVo.getPgsqlSchema());
-
-		// 迁移数据
-		// dbVo.insertTableData(dstConn,srcConn);
-
-		srcConn.close();
 		// dstConn.close();
 
 	}
