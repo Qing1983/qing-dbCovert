@@ -2,6 +2,9 @@
 
 ## 星空-数据库转换工具
 
+# 框架图
+![框架图](/doc/img/design.png)
+
 # mysql数据库到pgsql的数据库的转换。
 
 # todo
