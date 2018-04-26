@@ -1,0 +1,7 @@
+package ${servicePackage};
+
+${serviceImport}
+
+public interface ${serviceClassName} {
+
+}

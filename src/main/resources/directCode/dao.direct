@@ -1,0 +1,10 @@
+package ${daoPackage};
+
+import org.beetl.sql.core.annotatoin.SqlResource;
+import org.beetl.sql.core.mapper.BaseMapper;
+${daoImport}
+
+\@SqlResource("ghost.springboot")
+public interface ${daoClassName} extends BaseMapper<${modelClassName}> {
+
+}

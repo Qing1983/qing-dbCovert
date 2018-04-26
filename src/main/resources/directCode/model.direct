@@ -1,0 +1,23 @@
+package ${modelPackage};
+
+${modelImport}
+
+/*
+* ${modelComment}
+* gen by ${date(), "yyyy-MM-dd"}
+*/
+
+\@Data
+\@ToString
+\@Table(name = "${tableName}")
+public class ${modelClassName} ${!isEmpty(modelExtendClass) ? "extends" + modelExtendClass} {
+
+    @for(attr in attrs) {
+        @   if (!isEmpty(attr.remark)) {
+    // ${attr.remark}
+        @}
+    private ${attr.type} ${attr.name};
+
+    @}
+
+}
