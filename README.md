@@ -1,6 +1,6 @@
-# xk-dbCovert
+# qing-dbCovert
 
-## 星空-数据库转换工具
+## 轻量级的数据库转换工具
 
 # 框架图
 ![框架图](/doc/img/design.png)
