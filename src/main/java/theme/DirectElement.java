@@ -38,7 +38,7 @@ public class DirectElement {
     // 关系
     private ArrayList<String> rely;
 
-    public DirectElement(String packageName, String suffix, String templateName) {
+    public DirectElement (String packageName, String suffix, String templateName) {
         this.packageName = packageName;
         this.suffix = suffix;
         this.templateName = templateName;

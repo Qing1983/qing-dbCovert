@@ -64,12 +64,6 @@ public class DirectConfig {
         DirectElement serviceImplElement = new DirectElement("serviceImpl", "ServiceImpl", "serviceImpl.direct");
         DirectElement controllerElement = new DirectElement("controller", "Controller", "controller.direct");
 
-        // 关系
-        daoElement.setRely("model");
-        serviceImplElement.setRely("service");
-        serviceImplElement.setRely("dao");
-        controllerElement.setRely("service");
-
         directElementMap.put(DirectMember.DAO_ELEMENT_NAME, daoElement);
         directElementMap.put(DirectMember.MODEL_ELEMENT_NAME, modelElement);
         directElementMap.put(DirectMember.SERVICE_ELEMENT_NAME, serviceElement);

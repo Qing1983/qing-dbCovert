@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import db.util.BeetlRenderUtil;
 import db.util.DBService;
 import global.Config;
+import theme.DirectNew;
 
 public class Main {
 
@@ -29,6 +30,9 @@ public class Main {
 		dbService.load();
 		
 		// 渲染输出
-		BeetlRenderUtil.render(dbService.getDbVo());
+		//BeetlRenderUtil.render(dbService.getDbVo());
+
+		// 模板输出
+		DirectNew.gen(dbService.getDbVo());
 	}
 }

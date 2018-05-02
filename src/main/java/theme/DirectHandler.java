@@ -31,14 +31,6 @@ public class DirectHandler {
 
     static String CR = System.getProperty("line.separator");
 
-    public void init (DirectConfig directConfig, String [] genArray) {
-        if (genArray == null) {
-            this.genArray = defaultGenArray;
-        } else {
-            this.genArray = genArray;
-        }
-        this.directConfig = directConfig;
-    }
 
     public void gen (DirectConfig directConfig, TableVo tableVo, String [] genArray) throws Exception {
         init(directConfig, genArray);
@@ -48,6 +40,21 @@ public class DirectHandler {
     public void gen (DirectConfig directConfig, DBVo dbVo, String [] genArray) throws Exception {
         init(directConfig, genArray);
         genMoreTable(dbVo);
+    }
+
+
+    /**
+     * 初始化参数
+     * @param directConfig
+     * @param genArray
+     */
+    private void init (DirectConfig directConfig, String [] genArray) {
+        if (genArray == null) {
+            this.genArray = defaultGenArray;
+        } else {
+            this.genArray = genArray;
+        }
+        this.directConfig = directConfig;
     }
 
 

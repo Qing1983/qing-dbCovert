@@ -9,6 +9,7 @@ import db.model.DBVo;
 import global.Config;
 
 public class BeetlRenderUtil {
+
 	public static void render(DBVo dbVo) throws Exception {
 
 		ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader(Config.theme);
@@ -20,4 +21,5 @@ public class BeetlRenderUtil {
 		String str = template.render();
 		System.out.println(str);
 	}
+
 }
