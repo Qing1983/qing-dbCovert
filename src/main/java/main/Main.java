@@ -1,13 +1,10 @@
 package main;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import db.model.DBVo;
 import db.util.BeetlRenderUtil;
+import db.util.DBService;
 import global.Config;
 
 public class Main {
@@ -27,12 +24,11 @@ public class Main {
 		}
 		
 		// 填充数据库表VO
-		Connection conn = DriverManager.getConnection(global.Config.mysqlUrl, global.Config.mysqlUser, global.Config.mysqlPassword);
-		DBVo dbVo = new DBVo();
-		dbVo.load(conn);
-		conn.close();
+
+		DBService dbService = new DBService(global.Config.mysqlUrl, global.Config.mysqlUser, global.Config.mysqlPassword);
+		dbService.load();
 		
 		// 渲染输出
-		BeetlRenderUtil.render(dbVo);
+		BeetlRenderUtil.render(dbService.getDbVo());
 	}
 }
