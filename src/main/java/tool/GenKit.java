@@ -2,9 +2,7 @@ package tool;
 
 import java.io.File;
 
-/**
- * Created by camus on 2018/4/26.
- */
+
 public class GenKit {
 
     private static String srcPathRelativeToSrc = "/main/java";

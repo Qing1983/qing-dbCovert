@@ -1,4 +1,4 @@
-package direct.template;
+package theme;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

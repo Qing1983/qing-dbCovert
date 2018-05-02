@@ -1,4 +1,4 @@
-package direct.template;
+package theme;
 
 import lombok.Data;
 import lombok.ToString;

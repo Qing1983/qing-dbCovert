@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import db.model.DBVo;
+import db.util.BeetlRenderUtil;
 import global.Config;
 
 public class Main {
@@ -22,9 +23,11 @@ public class Main {
 			log.error("Config init failed.");
 			return;
 		}
+		Connection conn = DriverManager.getConnection(global.Config.mysqlUrl, global.Config.mysqlUser, global.Config.mysqlPassword);
 
-		
-		// dstConn.close();
-
+		DBVo dbVo = new DBVo();
+		dbVo.load(conn);
+		conn.close();
+		BeetlRenderUtil.render(dbVo);
 	}
 }

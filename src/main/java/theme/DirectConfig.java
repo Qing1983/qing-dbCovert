@@ -1,4 +1,4 @@
-package direct.template;
+package theme;
 
 import lombok.Data;
 import lombok.ToString;
@@ -7,9 +7,7 @@ import tool.GenKit;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by camus on 2018/4/26.
- */
+
 @Data
 @ToString
 public class DirectConfig {
