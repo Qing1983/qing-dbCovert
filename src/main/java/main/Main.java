@@ -15,7 +15,7 @@ public class Main {
 
 		// 加载数据库驱动
 		Class.forName("org.postgresql.Driver");
-		Class.forName("com.mysql.jdbc.Driver");
+		Class.forName("com.mysql.cj.jdbc.Driver");
 
 		// 读取配置文件
 		if (!Config.init()) {

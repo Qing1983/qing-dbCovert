@@ -74,28 +74,43 @@ public class DBService {
 			dbmd = conn.getMetaData();
 			ResultSet resultSet = dbmd.getTables(null, null, null, new String[] { "TABLE", "VIEW" });
 
+//			TABLE_CAT String => table catalog (may be null) 
+//					2.TABLE_SCHEM String => table schema (may be null) 
+//					3.TABLE_NAME String => table name 
+//					4.TABLE_TYPE String => table type. Typical types are "TABLE", "VIEW", "SYSTEM TABLE", "GLOBAL TEMPORARY", "LOCAL TEMPORARY", "ALIAS", "SYNONYM". 
+//					5.REMARKS String => explanatory comment on the table 
+//					6.TYPE_CAT String => the types catalog (may be null) 
+//					7.TYPE_SCHEM String => the types schema (may be null) 
+//					8.TYPE_NAME String => type name (may be null) 
+//					9.SELF_REFERENCING_COL_NAME String => name of the designated "identifier" column of a typed table (may be null) 
+//					10.REF_GENERATION String => specifies how values in SELF_REFERENCING_COL_NAME are created. Values are "SYSTEM", "USER", "DERIVED". (may be null) 
+
 			while (resultSet.next()) {
 				TableVo tableVo = new TableVo();
+				String tableCat = resultSet.getString("TABLE_CAT"); // 表目录
+				String tableSchema = resultSet.getString("TABLE_SCHEM");
 				String tableName = resultSet.getString("TABLE_NAME"); // 表名称
 				String tableType = resultSet.getString("TABLE_TYPE"); // 表类型
 				String tableRemarks = resultSet.getString("REMARKS"); // 表备注
-				log.debug("表名" + tableName + " 注释:" + tableRemarks);
+
+				log.info(tableCat +","+ tableSchema +","+tableType+"表名" + tableName + " 注释:" + tableRemarks);
 
 				tableVo.setTableName(tableName);
 				tableVo.setLowerCaseTableName(tableName.toLowerCase());
 				tableVo.setTalbleRemarks(tableRemarks);
-				ResultSet rs = conn.getMetaData().getColumns(null, null, tableName, "%");
+				
+				ResultSet rs = conn.getMetaData().getColumns(tableCat, null, tableName, "%");
 				while (rs.next()) {
 					ColumnVo columnVo = new ColumnVo(rs, tableVo);
 					tableVo.addColumn(columnVo);
 				}
 
-				rs = conn.getMetaData().getPrimaryKeys(null, null, tableName);
+				rs = conn.getMetaData().getPrimaryKeys(tableCat, null, tableName);
 				while (rs.next()) {
 					PrimaryKeyVo primaryKeyVo = new PrimaryKeyVo(rs);
 					tableVo.addPrimaryKey(primaryKeyVo);
 				}
-
+				
 				dbVo.getTableVoList().add(tableVo);
 
 			}
