@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Data
 public class DBService {
+
 	private String url;
 	private String userName;
 	private String password;

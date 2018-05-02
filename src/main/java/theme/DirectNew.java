@@ -62,6 +62,7 @@ public class DirectNew {
     private static List<File> getFilsByOriginPath (String path) {
         String filePath = GenKit.getJavaSRCPath() + path;
         // 第一步 获取路径中所有文件
-        return FileUtil.getPathFiles(filePath);
+        return FileUtil.getFileList(filePath);
     }
+
 }
