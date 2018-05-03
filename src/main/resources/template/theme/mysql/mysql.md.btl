@@ -3,6 +3,6 @@
 | 字段名 | 类型 | 描述 | 
 | - | - | - | 
 	<% for(column in tableVo.columnVoList){ %>
-| ${column.lowerCaseOrginColumnName} | ${column.typeName} | ${column.remarks} |
+| ${column.columnName} | ${column.typeName} | ${column.remarks} |
 	<% } %>
 <% } %>

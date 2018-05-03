@@ -16,7 +16,6 @@ public class TableVo {
 
 	private String tableName;
 	private String lowerCaseTableName;
-	private String idColumn;
 	private String talbleRemarks;
 	private String tableType;
 
@@ -26,17 +25,22 @@ public class TableVo {
 	}
 
 	public TableVo addColumn(ColumnVo columnVo) {
-		columnVoList.add(columnVo);
+		if (columnVo != null) {
+			columnVoList.add(columnVo);
+		} else {
+			log.debug("addColumn失败, columnVo是空的");
+		}
 		return this;
 	}
 
 	public TableVo addPrimaryKey(PrimaryKeyVo primaryKeyVo) {
-		primaryKeyList.add(primaryKeyVo);
-		return this;
-	}
+		if (primaryKeyVo != null) {
+			primaryKeyList.add(primaryKeyVo);
+		} else {
+			log.debug("addPrimaryKey失败, primaryKeyVo是空的");
+		}
 
-	public String toJson() {
-		return JsonTool.toJSON(this);
+		return this;
 	}
 
 }

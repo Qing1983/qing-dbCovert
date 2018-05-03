@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 public class Config {
 
 	public static String mysqlUrl = null;
+	public static String mysqlDB = null;
+	public static String mysqlUrlParam = null;
 	public static String mysqlUser = null;
 	public static String mysqlPassword = null;
 
@@ -32,6 +34,8 @@ public class Config {
 			}
 			config = new PropertiesConfiguration("conf/config_" + env + ".properties");
 			mysqlUrl = config.getString("mysqlUrl", "");
+			mysqlDB = config.getString("mysqlDB", "");
+			mysqlUrlParam = config.getString("mysqlUrlParam", "");
 			mysqlUser = config.getString("mysqlUser", "");
 			mysqlPassword = config.getString("mysqlPassword", "");
 
@@ -42,6 +46,8 @@ public class Config {
 			log.info("                    CONFIG                ");
 			log.info("==========================================");
 			log.info("mysqlUrl: " + mysqlUrl);
+			log.info("mysqlDB: " + mysqlDB);
+			log.info("mysqlUrlParam: " + mysqlUrlParam);
 			log.info("mysqlUser : " + mysqlUser);
 			log.info("mysqlPassword : " + mysqlPassword);
 			log.info("theme : " + theme);

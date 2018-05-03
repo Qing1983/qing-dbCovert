@@ -26,13 +26,13 @@ public class Main {
 		
 		// 填充数据库表VO
 
-		DBService dbService = new DBService(global.Config.mysqlUrl, global.Config.mysqlUser, global.Config.mysqlPassword);
+		DBService dbService = new DBService(global.Config.mysqlUrl, global.Config.mysqlDB, global.Config.mysqlUrlParam, global.Config.mysqlUser, global.Config.mysqlPassword);
 		dbService.load();
 		
 		// 渲染输出
-		//BeetlRenderUtil.render(dbService.getDbVo());
+		BeetlRenderUtil.render(dbService.getDbVo());
 
 		// 模板输出
-		DirectNew.gen(dbService.getDbVo());
+		//DirectNew.gen(dbService.getDbVo());
 	}
 }
