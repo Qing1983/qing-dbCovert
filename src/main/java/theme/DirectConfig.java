@@ -42,14 +42,14 @@ public class DirectConfig {
     }
 
     public DirectConfig ( String templateRootPath, String basePackage, Map<String, DirectElement> directElementMap) {
-        this.templateRootPath = rootPath;
+        this.templateRootPath = templateRootPath;
         this.basePackage = basePackage;
         this.directElementMap = directElementMap;
     }
 
     public DirectConfig (String rootPath, String templateRootPath, String basePackage, Map<String, DirectElement> directElementMap) {
         this.rootPath = rootPath;
-        this.templateRootPath = rootPath;
+        this.templateRootPath = templateRootPath;
         this.basePackage = basePackage;
         this.directElementMap = directElementMap;
     }

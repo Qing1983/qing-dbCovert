@@ -6,6 +6,7 @@ import db.model.TableVo;
 import lombok.extern.slf4j.Slf4j;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
+import org.beetl.core.ResourceLoader;
 import org.beetl.core.Template;
 import org.beetl.core.resource.ClasspathResourceLoader;
 
@@ -174,26 +175,20 @@ public class DirectHandler {
     }
 
     private void saveSourceFile (String srcPath, String pkg, String className, String content) throws IOException {
+        log.info("==========================输出文件到本地====================");
         String file = this.directConfig.getRootPath() == null ? srcPath + File.separator + pkg.replace('.', File.separatorChar)
                 : this.directConfig.getRootPath();
         File f  = new File(file);
         f.mkdirs();
-        File target = new File(file,className+".java");
-        if (judeFileExists(target)) {
+        File target = new File(file,className + ".java");
+        if (target.exists()) {
             log.info("======================== + " + className + "文件已存在====================");
             return;
         }
         FileWriter writer = new FileWriter(target);
         writer.write(content);
         writer.close();
-    }
-
-    private Boolean judeFileExists (File file) {
-        if (file.exists()) {
-            return true;
-        } else {
-            return false;
-        }
+        log.info("路径:" + file + className + ".java");
     }
 
 }

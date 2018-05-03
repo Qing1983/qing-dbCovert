@@ -16,9 +16,9 @@ public class DirectNew {
 
     public static void gen (DBVo dbVo) throws Exception {
         // 第一步获取配置路径中所有的文件 包括文件名称等信息并生成DirectElement
-        String themePath = Config.theme;
+        String themePath = FileUtil.formatSeparator(Config.theme);
         Map<String, DirectElement> directElements = getElementsByPath(themePath);
-        DirectConfig directConfig = new DirectConfig(GenKit.getJavaSRCPath(), GenKit.getJavaSRCPath() + themePath, directElements);
+        DirectConfig directConfig = new DirectConfig(themePath, FileUtil.getAbsolutePath() + themePath, directElements);
         DirectHandler directHandler = new DirectHandler();
         directHandler.gen(directConfig, dbVo, getGenArray(themePath));
     }
@@ -52,7 +52,9 @@ public class DirectNew {
             String fileSuffixName = FileUtil.getFileNameWithoutSuffix(file);
             genArray.add(fileSuffixName);
         }
-        return (String[]) genArray.toArray();
+        String [] result = new String[genArray.size()];
+        genArray.toArray(result);
+        return result;
     }
 
     /**
@@ -60,7 +62,7 @@ public class DirectNew {
      * @return
      */
     private static List<File> getFilsByOriginPath (String path) {
-        String filePath = GenKit.getJavaSRCPath() + path;
+        String filePath = FileUtil.getAbsolutePath() + path;
         // 第一步 获取路径中所有文件
         return FileUtil.getFileList(filePath);
     }
