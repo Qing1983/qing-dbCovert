@@ -14,12 +14,15 @@ import db.model.PrimaryKeyVo;
 import db.model.TableVo;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import tool.ColumnUtil;
 
 @Slf4j
 @Data
 public class DBService {
 
 	private String url;
+	private String db;
+	private String urlParam;
 	private String userName;
 	private String password;
 	private DBVo dbVo;
@@ -28,24 +31,28 @@ public class DBService {
 		this.dbVo = new DBVo();
 	}
 
-	public DBService(String url, String userName, String password) {
+	public DBService(String url, String db, String urlParam, String userName, String password) {
 		this.url = url;
+		this.db = db;
+		this.urlParam  = urlParam;
 		this.userName = userName;
 		this.password = password;
 		this.dbVo = new DBVo();
 	}
 
 	public boolean load() throws SQLException {
-		Connection srcConn = DriverManager.getConnection(url, userName, password);
-
-		loadTableList(srcConn);
-
-		srcConn.close();
+		Connection conn = DriverManager.getConnection(url+db+urlParam, userName, password);
+		loadDatabase(conn);
+		conn.close();
 		return true;
-
 	}
 
-	public void loadTableList(Connection conn) {
+	/**
+	 * 加载数据库实例schema到model中
+	 * 
+	 * @param conn
+	 */
+	public void loadDatabase(Connection conn) {
 		List<TableVo> tableVoList = dbVo.getTableVoList();
 		if (tableVoList == null) {
 			tableVoList = new ArrayList<>();
@@ -73,18 +80,7 @@ public class DBService {
 		try {
 
 			dbmd = conn.getMetaData();
-			ResultSet resultSet = dbmd.getTables(null, null, null, new String[] { "TABLE", "VIEW" });
-
-//			TABLE_CAT String => table catalog (may be null) 
-//					2.TABLE_SCHEM String => table schema (may be null) 
-//					3.TABLE_NAME String => table name 
-//					4.TABLE_TYPE String => table type. Typical types are "TABLE", "VIEW", "SYSTEM TABLE", "GLOBAL TEMPORARY", "LOCAL TEMPORARY", "ALIAS", "SYNONYM". 
-//					5.REMARKS String => explanatory comment on the table 
-//					6.TYPE_CAT String => the types catalog (may be null) 
-//					7.TYPE_SCHEM String => the types schema (may be null) 
-//					8.TYPE_NAME String => type name (may be null) 
-//					9.SELF_REFERENCING_COL_NAME String => name of the designated "identifier" column of a typed table (may be null) 
-//					10.REF_GENERATION String => specifies how values in SELF_REFERENCING_COL_NAME are created. Values are "SYSTEM", "USER", "DERIVED". (may be null) 
+			ResultSet resultSet = dbmd.getTables(this.db, null, null, new String[] { "TABLE", "VIEW" });
 
 			while (resultSet.next()) {
 				TableVo tableVo = new TableVo();
@@ -94,24 +90,24 @@ public class DBService {
 				String tableType = resultSet.getString("TABLE_TYPE"); // 表类型
 				String tableRemarks = resultSet.getString("REMARKS"); // 表备注
 
-				log.info(tableCat +","+ tableSchema +","+tableType+"表名" + tableName + " 注释:" + tableRemarks);
+				log.debug(tableCat + "," + tableSchema + "," + tableType + ",表名" + tableName + " 注释:" + tableRemarks);
 
 				tableVo.setTableName(tableName);
 				tableVo.setLowerCaseTableName(tableName.toLowerCase());
 				tableVo.setTalbleRemarks(tableRemarks);
-				
+
 				ResultSet rs = conn.getMetaData().getColumns(tableCat, null, tableName, "%");
 				while (rs.next()) {
-					ColumnVo columnVo = new ColumnVo(rs, tableVo);
+					ColumnVo columnVo = getColumnVo(rs);
 					tableVo.addColumn(columnVo);
 				}
 
 				rs = conn.getMetaData().getPrimaryKeys(tableCat, null, tableName);
 				while (rs.next()) {
-					PrimaryKeyVo primaryKeyVo = new PrimaryKeyVo(rs);
+					PrimaryKeyVo primaryKeyVo = this.getPrimaryKeyVo(rs);
 					tableVo.addPrimaryKey(primaryKeyVo);
 				}
-				
+
 				dbVo.getTableVoList().add(tableVo);
 
 			}
@@ -126,4 +122,70 @@ public class DBService {
 		}
 	}
 
+	/**
+	 * 根据结果集填充
+	 * @param rs
+	 * @param columnVo
+	 */
+	public ColumnVo getColumnVo(ResultSet rs) {
+		ColumnVo columnVo = new ColumnVo();
+		try {
+			columnVo.tableCat = rs.getString("TABLE_CAT");
+			columnVo.tableSchem = rs.getString("TABLE_SCHEM");
+			columnVo.tableName = rs.getString("TABLE_NAME");
+			// mysql 驼峰转下划线
+			columnVo.columnName = rs.getString("COLUMN_NAME");
+			columnVo.lowerCaseUnderLineColumnName = ColumnUtil.toUnderline(columnVo.columnName).toLowerCase();
+			columnVo.upperCaseUnderLineColumnName = columnVo.lowerCaseUnderLineColumnName.toUpperCase();
+			columnVo.camelColumnName = ColumnUtil.toCamel(columnVo.columnName);
+			
+			columnVo.dataType = rs.getInt("DATA_TYPE");
+			columnVo.typeName = rs.getString("TYPE_NAME");
+			columnVo.columnSize = rs.getInt("COLUMN_SIZE");
+
+			columnVo.decimalDigits = rs.getInt("DECIMAL_DIGITS");
+			columnVo.numPrecRadix = rs.getInt("NUM_PREC_RADIX");
+
+			columnVo.nullAble = rs.getInt("NULLABLE");
+			columnVo.remarks = rs.getString("REMARKS");
+			columnVo.columnDef = rs.getString("COLUMN_DEF");
+			columnVo.charOctetLength = rs.getInt("CHAR_OCTET_LENGTH");
+			columnVo.ordinalPosition = rs.getInt("ORDINAL_POSITION");
+			columnVo.isNullable = rs.getString("IS_NULLABLE");
+			if (columnVo.isNullable == null) {
+				columnVo.isNullable = "";
+			}
+			columnVo.isNullable = columnVo.isNullable.toUpperCase();
+			columnVo.scourceDataType = rs.getShort("SOURCE_DATA_TYPE");
+			columnVo.isAutoIncrement = rs.getString("IS_AUTOINCREMENT");
+			if (columnVo.isAutoIncrement == null) {
+				columnVo.isAutoIncrement = "";
+			}
+			columnVo.isAutoIncrement = columnVo.isAutoIncrement.toUpperCase();
+		} catch (Exception e) {
+			log.error("从表" + columnVo.tableName + "获取列失败", e);
+			columnVo = null;
+		}
+		return columnVo;
+
+	}
+	
+	public PrimaryKeyVo getPrimaryKeyVo(ResultSet rs) {
+		PrimaryKeyVo primaryKeyVo = new PrimaryKeyVo();
+		try {
+			primaryKeyVo.tableCat = rs.getString("TABLE_CAT");
+			primaryKeyVo.tableSchem = rs.getString("TABLE_SCHEM");
+			primaryKeyVo.tableName = rs.getString("TABLE_NAME");
+			primaryKeyVo.columnName = rs.getString("COLUMN_NAME");
+			primaryKeyVo.lowerCaseUnderLineColumnName = ColumnUtil.toUnderline(primaryKeyVo.columnName).toLowerCase();
+			primaryKeyVo.upperCaseUnderLineColumnName = primaryKeyVo.lowerCaseUnderLineColumnName.toUpperCase();
+			primaryKeyVo.camelColumnName = ColumnUtil.toCamel(primaryKeyVo.columnName);
+			primaryKeyVo.keySeq = rs.getShort("KEY_SEQ");
+			primaryKeyVo.pkName = rs.getString("PK_NAME");
+	
+		} catch (Exception e) {
+			log.error("从" + primaryKeyVo.tableName + "获取主键失败", e);
+		}
+		return primaryKeyVo;
+	}
 }
