@@ -3,7 +3,7 @@ package tool;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ColumnUtil {
+public class ColumnTool {
 
 	public static final char UNDERLINE = '_';
 

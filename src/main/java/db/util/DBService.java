@@ -14,7 +14,7 @@ import db.model.PrimaryKeyVo;
 import db.model.TableVo;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import tool.ColumnUtil;
+import tool.ColumnTool;
 
 @Slf4j
 @Data
@@ -135,9 +135,9 @@ public class DBService {
 			columnVo.tableName = rs.getString("TABLE_NAME");
 			// mysql 驼峰转下划线
 			columnVo.columnName = rs.getString("COLUMN_NAME");
-			columnVo.lowerCaseUnderLineColumnName = ColumnUtil.toUnderline(columnVo.columnName).toLowerCase();
+			columnVo.lowerCaseUnderLineColumnName = ColumnTool.toUnderline(columnVo.columnName).toLowerCase();
 			columnVo.upperCaseUnderLineColumnName = columnVo.lowerCaseUnderLineColumnName.toUpperCase();
-			columnVo.camelColumnName = ColumnUtil.toCamel(columnVo.columnName);
+			columnVo.camelColumnName = ColumnTool.toCamel(columnVo.columnName);
 			
 			columnVo.dataType = rs.getInt("DATA_TYPE");
 			columnVo.typeName = rs.getString("TYPE_NAME");
@@ -177,9 +177,9 @@ public class DBService {
 			primaryKeyVo.tableSchem = rs.getString("TABLE_SCHEM");
 			primaryKeyVo.tableName = rs.getString("TABLE_NAME");
 			primaryKeyVo.columnName = rs.getString("COLUMN_NAME");
-			primaryKeyVo.lowerCaseUnderLineColumnName = ColumnUtil.toUnderline(primaryKeyVo.columnName).toLowerCase();
+			primaryKeyVo.lowerCaseUnderLineColumnName = ColumnTool.toUnderline(primaryKeyVo.columnName).toLowerCase();
 			primaryKeyVo.upperCaseUnderLineColumnName = primaryKeyVo.lowerCaseUnderLineColumnName.toUpperCase();
-			primaryKeyVo.camelColumnName = ColumnUtil.toCamel(primaryKeyVo.columnName);
+			primaryKeyVo.camelColumnName = ColumnTool.toCamel(primaryKeyVo.columnName);
 			primaryKeyVo.keySeq = rs.getShort("KEY_SEQ");
 			primaryKeyVo.pkName = rs.getString("PK_NAME");
 	

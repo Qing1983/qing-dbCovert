@@ -3,13 +3,13 @@ package tool;
 import java.io.File;
 
 
-public class GenKit {
+public class GenTool {
 
     private static String srcPathRelativeToSrc = "/main/java";
 
     private static String resourcePathRelativeToSrc = "/main/resources";
 
-    public GenKit() {
+    public GenTool() {
     }
 
     public static String getJavaSRCPath() {

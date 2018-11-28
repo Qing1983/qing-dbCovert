@@ -1,12 +1,10 @@
 package tool;
 
-import theme.DirectNew;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileUtil {
+public class FileTool {
 
     public static String SEPARATOR = System.getProperty("file.separator");
 
@@ -61,7 +59,7 @@ public class FileUtil {
      * @return
      */
     public static String getAbsolutePath () {
-        String path = FileUtil.class.getProtectionDomain().getCodeSource()
+        String path = FileTool.class.getProtectionDomain().getCodeSource()
                 .getLocation().getFile();
         File file = new File(path);
         return file.getAbsolutePath();
