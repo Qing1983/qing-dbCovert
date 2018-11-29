@@ -1,7 +1,7 @@
 package ${ctx.controllerPackage};
 
-import ${ctx.servicePackage};
-import ${ctx.modelPackage};
+import ${ctx.servicePackage}.${ctx.serviceClass};
+import ${ctx.modelPackage}.${ctx.modelClass};
 import com.szzt.train.tfds.web.framework.annotation.Title;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class ${ctx.controllerClass} {
     //@RequiresPermissions("${ctx.tableVo.camelTableName}:delete")
     public ResponseVo delete(${ctx.modelClass} ${ctx.modelObj}) {
         try {
-            this.dictService.delete(${ctx.modelObj});
+            ${ctx.serviceObj}.delete(${ctx.modelObj});
             return ResponseTool.success("删除${ctx.tableCN}成功!");
         } catch (Exception e) {
             log.error("删除${ctx.tableCN}失败", e);
@@ -59,7 +59,7 @@ public class ${ctx.controllerClass} {
     //@RequiresPermissions("${ctx.tableVo.camelTableName}:update")
     public ResponseVo update(${ctx.modelClass} ${ctx.modelObj}) {
         try {
-            this.dictService.update(${ctx.modelObj});
+            ${ctx.serviceObj}.update(${ctx.modelObj});
             return ResponseTool.success("修改${ctx.tableCN}成功!");
         } catch (Exception e) {
             log.error("修改${ctx.tableCN}失败", e);

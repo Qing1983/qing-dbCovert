@@ -35,7 +35,7 @@ public class Main {
 		// 渲染输出
 		// BeetlRenderUtil.renderFile(dbService.getDbVo(),Config.theme,
 		// "/mysql.md.btl");
-		String packagePrefix = "com.szzt.train.tfds.business.";
+		String packagePrefix = "com.szzt.train.tfds.web.business.";
 		String moduleName = "user";
 		
 		HashMap tableMap = new HashMap();

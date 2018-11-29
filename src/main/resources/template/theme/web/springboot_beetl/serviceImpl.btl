@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 
-import ${ctx.daoPackage};
-import ${ctx.modelPackage};
-import ${ctx.servicePackage};
+import ${ctx.daoPackage}.${ctx.daoClass};
+import ${ctx.modelPackage}.${ctx.modelClass};
+import ${ctx.servicePackage}.${ctx.serviceClass};
 
 import lombok.extern.slf4j.Slf4j;
 import xingkong.tool.core.web.form.PageForm;

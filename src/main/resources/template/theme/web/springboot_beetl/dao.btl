@@ -1,6 +1,6 @@
 package ${ctx.daoPackage};
 
-import ${ctx.modelPackage};
+import ${ctx.modelPackage}.${ctx.modelClass};
 import com.szzt.train.tfds.web.framework.mapper.MybatisMapper;
 /**
  * @desc ${ctx.tableCN}

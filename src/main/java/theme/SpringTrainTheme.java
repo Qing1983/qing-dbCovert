@@ -81,8 +81,6 @@ public class SpringTrainTheme {
 		modelClass = StringTool.upperCaseFirst(BeetlRenderUtil.renderText("ctx", (Object) this, modelClass));
 		modelObj = StringTool.lowerCaseFirst(modelClass);
 
-		
-
 		servicePackage = prefixPackage + BeetlRenderUtil.renderText("ctx", (Object) this, servicePackage);
 		serviceClass = StringTool.upperCaseFirst(BeetlRenderUtil.renderText("ctx", (Object) this, serviceClass));
 		serviceObj = StringTool.lowerCaseFirst(serviceClass);
