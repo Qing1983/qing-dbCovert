@@ -142,7 +142,7 @@ public class DBService {
 			columnVo.columnName = rs.getString("COLUMN_NAME");
 			columnVo.lowerCaseUnderLineColumnName = NameTool.toUnderline(columnVo.columnName).toLowerCase();
 			columnVo.upperCaseUnderLineColumnName = columnVo.lowerCaseUnderLineColumnName.toUpperCase();
-			columnVo.camelColumnName = NameTool.toCamel(columnVo.columnName);
+			columnVo.camelColumnName = NameTool.toCamel(columnVo.lowerCaseUnderLineColumnName);
 
 			columnVo.dataType = rs.getInt("DATA_TYPE");
 			columnVo.typeName = rs.getString("TYPE_NAME");

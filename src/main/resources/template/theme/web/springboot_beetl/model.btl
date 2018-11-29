@@ -17,7 +17,7 @@ import lombok.ToString;
  * ${date(), "yyyy-MM-dd"}
  */
 
-@Table(name = "${ctx.tableVo.camelTableName}")
+@Table(name = "${ctx.tableVo.tableName}")
 @Data
 @ToString
 public class ${ctx.modelClass} {
