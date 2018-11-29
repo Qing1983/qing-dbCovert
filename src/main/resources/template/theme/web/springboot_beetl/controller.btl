@@ -1,16 +1,70 @@
-package ${controllerPackage};
+package ${ctx.controllerPackage};
 
-${controllerImport}
+import ${ctx.servicePackage};
+import ${ctx.modelPackage};
+import com.szzt.train.tfds.web.framework.annotation.Title;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import xingkong.tool.core.ResponseTool;
+import xingkong.tool.core.web.form.PageForm;
+import xingkong.tool.core.web.vo.ResponseVo;
 
-\@RestController
-\@RequestMapping("/${tableName}")
-public class ${controllerClassName} {
+@Slf4j
+@RestController
+@RequestMapping("/${ctx.tableVo.camelTableName}")
+public class ${ctx.controllerClass} {
 
-    \@Autowired
-    ${serviceClassName} ${conversionObj(serviceClassName)};
+    @Autowired
+    ${ctx.serviceClass} ${ctx.serviceObj};
+
+    @Title("查看${ctx.tableCN}列表")
+    @RequestMapping("list")
+    //@RequiresPermissions("${ctx.tableVo.camelTableName}:list")
+    public ResponseVo list(${ctx.modelClass} ${ctx.modelObj}, PageForm pageForm) {
+        return ResponseTool.success(${ctx.serviceObj}.list(${ctx.modelObj}, pageForm));
+    }
+
+    @Title("新增${ctx.tableCN}")
+    @RequestMapping("add")
+    //@RequiresPermissions("${ctx.tableVo.camelTableName}:add")
+    public ResponseVo add(${ctx.modelClass} ${ctx.modelObj}) {
+        try {
+            ${ctx.serviceObj}.add(${ctx.modelObj});
+            return ResponseTool.success("新增${ctx.tableCN}成功!");
+        } catch (Exception e) {
+            log.error("新增${ctx.tableCN}失败", e);
+            return ResponseTool.error("新增${ctx.tableCN}失败，请联系网站管理员!");
+        }
+    }
+
+    @Title("删除${ctx.tableCN}")
+    @RequestMapping("delete")
+    //@RequiresPermissions("${ctx.tableVo.camelTableName}:delete")
+    public ResponseVo delete(${ctx.modelClass} ${ctx.modelObj}) {
+        try {
+            this.dictService.delete(${ctx.modelObj});
+            return ResponseTool.success("删除${ctx.tableCN}成功!");
+        } catch (Exception e) {
+            log.error("删除${ctx.tableCN}失败", e);
+            return ResponseTool.error("删除${ctx.tableCN}失败，请联系网站管理员!");
+        }
+    }
+
+    @Title("修改${ctx.tableCN}")
+    @RequestMapping("update")
+    //@RequiresPermissions("${ctx.tableVo.camelTableName}:update")
+    public ResponseVo update(${ctx.modelClass} ${ctx.modelObj}) {
+        try {
+            this.dictService.update(${ctx.modelObj});
+            return ResponseTool.success("修改${ctx.tableCN}成功!");
+        } catch (Exception e) {
+            log.error("修改${ctx.tableCN}失败", e);
+            return ResponseTool.error("修改${ctx.tableCN}失败，请联系网站管理员!");
+        }
+    }
 
 }

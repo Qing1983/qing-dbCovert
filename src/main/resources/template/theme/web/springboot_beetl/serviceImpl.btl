@@ -1,13 +1,57 @@
-package ${serviceImplPackage};
+package ${ctx.implPackage};
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-${serviceImplImport}
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.github.pagehelper.PageHelper;
 
-\@Service
-public class ${serviceImplClassName} implements ${serviceClassName} {
+import ${ctx.daoPackage};
+import ${ctx.modelPackage};
+import ${ctx.servicePackage};
 
-    \@Autowired
-    ${daoClassName} ${conversionObj(daoClassName)};
+import lombok.extern.slf4j.Slf4j;
+import xingkong.tool.core.web.form.PageForm;
+
+@Service
+public class ${ctx.implClass} implements ${ctx.serviceClass} {
+
+    @Autowired
+    ${ctx.daoClass} ${ctx.daoObj};
+
+    @Override
+    public List<${ctx.modelClass}> list(${ctx.modelClass} ${ctx.modelObj},  PageForm pageForm) {
+        if (pageForm.getPageNo() != null && pageForm.getPageSize() != null) {
+            PageHelper.startPage(pageForm.getPageNo(), pageForm.getPageSize());
+        }
+        return ${ctx.daoObj}.select(${ctx.modelObj});
+    }
+
+    @Override
+    public int add(${ctx.modelClass} ${ctx.modelObj}) {
+        int id = ${ctx.daoObj}.insertSelective(${ctx.modelObj});
+        return id;
+    }
+
+    @Override
+    @Transactional
+    public void delete(${ctx.modelClass} ${ctx.modelObj}) {
+        if (${ctx.modelObj} != null) {
+            ${ctx.daoObj}.deleteByExample(${ctx.modelObj});
+        }}
+
+    @Override
+    @Transactional
+    public void update(${ctx.modelClass} ${ctx.modelObj}) {
+        if ( ${ctx.modelObj} != null)
+        {
+            ${ctx.daoObj}.updateByPrimaryKeySelective(${ctx.modelObj});
+        }
+    }
+
+    @Override
+    public ${ctx.modelClass} view(${ctx.modelClass} ${ctx.modelObj}) {
+        return ${ctx.daoObj}.selectOne(${ctx.modelObj});
+    }
 
 }

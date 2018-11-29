@@ -7,16 +7,15 @@ import org.apache.commons.io.FileUtils;
 
 public class StringTool {
 
-	/**
-	 * 首字母大写
-	 * 
-	 * @param str
-	 * @return
-	 */
-	public static String upperFirstCase(String str) {
-		return str.substring(0, 1).toUpperCase() + str.substring(1);
+	
+	public static String  upperCaseFirst(String text ){
+		return text.substring(0, 1).toUpperCase() + text.substring(1);
 	}
-
+	
+	public static String lowerCaseFirst(String text){
+		return text.substring(0, 1).toLowerCase() + text.substring(1);
+	}
+	
 	/**
 	 * 把文件中的内容读到一个字符串中，编码使用VM的缺省编码。
 	 * 

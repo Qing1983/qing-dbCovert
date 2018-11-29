@@ -19,6 +19,11 @@ public class TableVo {
 	private String talbleRemarks;
 	private String tableType;
 
+	/**
+	 * 驼峰列名
+	 */
+	public String camelTableName;
+	
 	public TableVo() {
 		columnVoList = new ArrayList<>();
 		primaryKeyList = new ArrayList<>();

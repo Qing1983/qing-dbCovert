@@ -14,7 +14,8 @@ public class JsonTool {
 		String jsonStr;
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
-			jsonStr = objectMapper.writeValueAsString(obj);
+			
+			jsonStr = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
 		} catch (Exception e) {
 			log.error("Object to Json error", e);
 			throw new RuntimeException(e);

@@ -136,4 +136,14 @@ public class ColumnVo {
 	 * 驼峰列名
 	 */
 	public String camelColumnName;
+	
+	public String javaType;
+	
+	public String oracleType;
+	
+	public String mysqlType;
+	
+	public String sqlServerType;
+	
+	public String pgsqlType;
 }

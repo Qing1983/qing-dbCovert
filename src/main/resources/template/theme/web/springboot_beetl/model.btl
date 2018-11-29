@@ -1,23 +1,27 @@
-package ${modelPackage};
+package ${ctx.modelPackage};
 
-${modelImport}
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-/*
-* ${modelComment}
-* gen by ${date(), "yyyy-MM-dd"}
-*/
+import com.szzt.train.tfds.web.framework.annotation.ExportConfig;
 
-\@Data
-\@ToString
-\@Table(name = "${tableName}")
-public class ${modelClassName} ${!isEmpty(modelExtendClass) ? "extends" + modelExtendClass} {
+import lombok.Data;
 
-    @for(attr in attrs) {
-        @   if (!isEmpty(attr.remark)) {
-    // ${attr.remark}
-        @}
-    private ${attr.type} ${attr.name};
 
-    @}
+/**
+ * @desc ${ctx.tableCN}
+ * ${date(), "yyyy-MM-dd"}
+ */
+
+@Table(name = "${ctx.tableVo.camelTableName}")
+@Data
+@ToString
+public class ${ctx.modelClass} {
+
+<% for(columnVo in ctx.tableVo.columnVoList) { %>
+    private ${columnVo.javaType} ${columnVo.camelColumnName}; // ${columnVo.remarks!}
+<% } %>
 
 }

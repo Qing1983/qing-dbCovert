@@ -4,10 +4,36 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class FileTool {
 
     public static String SEPARATOR = System.getProperty("file.separator");
 
+    /**
+	 * Description: 创建一个由path指定的目录,如果改目录存在，则不会创建
+	 * @param path 文件目录
+	 * @return 创建或者已经存在，返回true,否则返回false
+	 */
+	public static boolean createDir(String path) {
+		try {
+			File file = new File(path);
+			if (!file.exists() && !file.isDirectory()) {
+				if (file.mkdirs()) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return true;
+			}
+		} catch (Exception e) {
+			log.error("createDir" + path + "fail", e);
+			return false;
+		}
+	}
+    
     /**
      * 判断文件路径中是否有文件
      * @param path

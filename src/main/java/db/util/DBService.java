@@ -8,13 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.beetl.sql.core.JavaType;
+
 import db.model.ColumnVo;
 import db.model.DBVo;
 import db.model.PrimaryKeyVo;
 import db.model.TableVo;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import tool.ColumnTool;
+import tool.NameTool;
 
 @Slf4j
 @Data
@@ -34,14 +36,14 @@ public class DBService {
 	public DBService(String url, String db, String urlParam, String userName, String password) {
 		this.url = url;
 		this.db = db;
-		this.urlParam  = urlParam;
+		this.urlParam = urlParam;
 		this.userName = userName;
 		this.password = password;
 		this.dbVo = new DBVo();
 	}
 
 	public boolean load() throws SQLException {
-		Connection conn = DriverManager.getConnection(url+db+urlParam, userName, password);
+		Connection conn = DriverManager.getConnection(url + db + urlParam, userName, password);
 		loadDatabase(conn);
 		conn.close();
 		return true;
@@ -89,11 +91,13 @@ public class DBService {
 				String tableName = resultSet.getString("TABLE_NAME"); // 表名称
 				String tableType = resultSet.getString("TABLE_TYPE"); // 表类型
 				String tableRemarks = resultSet.getString("REMARKS"); // 表备注
+				String camelTableName = NameTool.toCamel(tableName);
 
 				log.debug(tableCat + "," + tableSchema + "," + tableType + ",表名" + tableName + " 注释:" + tableRemarks);
 
 				tableVo.setTableName(tableName);
 				tableVo.setLowerCaseTableName(tableName.toLowerCase());
+				tableVo.setCamelTableName(camelTableName);
 				tableVo.setTalbleRemarks(tableRemarks);
 
 				ResultSet rs = conn.getMetaData().getColumns(tableCat, null, tableName, "%");
@@ -124,6 +128,7 @@ public class DBService {
 
 	/**
 	 * 根据结果集填充
+	 * 
 	 * @param rs
 	 * @param columnVo
 	 */
@@ -135,10 +140,10 @@ public class DBService {
 			columnVo.tableName = rs.getString("TABLE_NAME");
 			// mysql 驼峰转下划线
 			columnVo.columnName = rs.getString("COLUMN_NAME");
-			columnVo.lowerCaseUnderLineColumnName = ColumnTool.toUnderline(columnVo.columnName).toLowerCase();
+			columnVo.lowerCaseUnderLineColumnName = NameTool.toUnderline(columnVo.columnName).toLowerCase();
 			columnVo.upperCaseUnderLineColumnName = columnVo.lowerCaseUnderLineColumnName.toUpperCase();
-			columnVo.camelColumnName = ColumnTool.toCamel(columnVo.columnName);
-			
+			columnVo.camelColumnName = NameTool.toCamel(columnVo.columnName);
+
 			columnVo.dataType = rs.getInt("DATA_TYPE");
 			columnVo.typeName = rs.getString("TYPE_NAME");
 			columnVo.columnSize = rs.getInt("COLUMN_SIZE");
@@ -162,6 +167,16 @@ public class DBService {
 				columnVo.isAutoIncrement = "";
 			}
 			columnVo.isAutoIncrement = columnVo.isAutoIncrement.toUpperCase();
+
+			// 处理数据类型
+			columnVo.javaType = JavaType.getType(columnVo.dataType, columnVo.columnSize, columnVo.decimalDigits);
+			if (columnVo.javaType.equals("Double")) {
+				columnVo.javaType = "BigDecimal";
+			}
+			if (columnVo.javaType.equals("Timestamp")) {
+				columnVo.javaType = "Date";
+			}
+
 		} catch (Exception e) {
 			log.error("从表" + columnVo.tableName + "获取列失败", e);
 			columnVo = null;
@@ -169,7 +184,7 @@ public class DBService {
 		return columnVo;
 
 	}
-	
+
 	public PrimaryKeyVo getPrimaryKeyVo(ResultSet rs) {
 		PrimaryKeyVo primaryKeyVo = new PrimaryKeyVo();
 		try {
@@ -177,12 +192,12 @@ public class DBService {
 			primaryKeyVo.tableSchem = rs.getString("TABLE_SCHEM");
 			primaryKeyVo.tableName = rs.getString("TABLE_NAME");
 			primaryKeyVo.columnName = rs.getString("COLUMN_NAME");
-			primaryKeyVo.lowerCaseUnderLineColumnName = ColumnTool.toUnderline(primaryKeyVo.columnName).toLowerCase();
+			primaryKeyVo.lowerCaseUnderLineColumnName = NameTool.toUnderline(primaryKeyVo.columnName).toLowerCase();
 			primaryKeyVo.upperCaseUnderLineColumnName = primaryKeyVo.lowerCaseUnderLineColumnName.toUpperCase();
-			primaryKeyVo.camelColumnName = ColumnTool.toCamel(primaryKeyVo.columnName);
+			primaryKeyVo.camelColumnName = NameTool.toCamel(primaryKeyVo.columnName);
 			primaryKeyVo.keySeq = rs.getShort("KEY_SEQ");
 			primaryKeyVo.pkName = rs.getString("PK_NAME");
-	
+
 		} catch (Exception e) {
 			log.error("从" + primaryKeyVo.tableName + "获取主键失败", e);
 		}

@@ -1,10 +1,10 @@
-package ${daoPackage};
+package ${ctx.daoPackage};
 
-import org.beetl.sql.core.annotatoin.SqlResource;
-import org.beetl.sql.core.mapper.BaseMapper;
-${daoImport}
-
-\@SqlResource("ghost.springboot")
-public interface ${daoClassName} extends BaseMapper<${modelClassName}> {
+import ${ctx.modelPackage};
+import com.szzt.train.tfds.web.framework.mapper.MybatisMapper;
+/**
+ * @desc ${ctx.tableCN}
+ */
+public interface ${ctx.daoClass} extends MybatisMapper<${ctx.modelClass}> {
 
 }

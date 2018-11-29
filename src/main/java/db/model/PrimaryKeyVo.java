@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import tool.ColumnTool;
+import tool.NameTool;
 
 @Data
 @Slf4j

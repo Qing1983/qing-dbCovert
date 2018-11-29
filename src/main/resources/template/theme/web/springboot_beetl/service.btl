@@ -1,7 +1,19 @@
-package ${servicePackage};
+package ${ctx.servicePackage};
 
-${serviceImport}
+import java.util.List;
 
-public interface ${serviceClassName} {
+import ${ctx.modelPackage};
 
+import xingkong.tool.core.web.form.PageForm;
+
+public interface ${ctx.serviceClass} {
+    List<${ctx.modelClass}> list(${ctx.modelClass} ${ctx.modelObj}, PageForm pageForm);
+
+    DictModel view(${ctx.modelClass} ${ctx.modelObj});
+
+    int add(${ctx.modelClass} ${ctx.modelObj});
+
+    void delete(${ctx.modelClass} ${ctx.modelObj});
+
+    void update(${ctx.modelClass} ${ctx.modelObj});
 }
