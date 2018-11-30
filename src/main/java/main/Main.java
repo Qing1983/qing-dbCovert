@@ -35,6 +35,16 @@ public class Main {
 		// 渲染输出
 		// BeetlRenderUtil.renderFile(dbService.getDbVo(),Config.theme,
 		// "/mysql.md.btl");
+		
+	}
+	
+	/**
+	 * 生成spring 火车故障系统的代码
+	 * @param dbService
+	 * @throws Exception
+	 */
+	public static void genSpringTrainTheme(DBService dbService) throws Exception
+	{
 		String packagePrefix = "com.szzt.train.tfds.web.business.";
 		String moduleName = "user";
 		
@@ -49,11 +59,9 @@ public class Main {
 		tableMap.put("tfOpVehicle", new ModuleVo("train", "机车"));
 		tableMap.put("viewRoleMenu", new ModuleVo("user", "角色菜单"));
 		
-		for (TableVo curTableVo : dbService.getDbVo().getTableVoList()) {
-			// SpringBootThemeVo SpringBootThemeVo = new
-			// SpringBootThemeVo("user", curTableVo, "E:/test/");
+		for (TableVo curTableVo : dbService.getDbVo().getTableVoList()) { 
 			ModuleVo curModule = (ModuleVo) tableMap.get(curTableVo.getCamelTableName());
-			SpringTrainTheme fielVo = new SpringTrainTheme(curModule.getTableCN(), curTableVo, curModule.getModelName(), packagePrefix, "E:/test", Config.theme);
+			SpringTrainTheme fielVo = new SpringTrainTheme(curModule.getTableCN(), curTableVo, curModule.getModelName(), packagePrefix, Config.outDir, Config.theme);
 			fielVo.render();
 			
 		}

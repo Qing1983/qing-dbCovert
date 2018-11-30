@@ -1,0 +1,8 @@
+<% for(tableVo in dbVo.tableVoList) { %>
+# ${tableVo.tableName}表 
+| 字段名 | 类型 | 描述 | 
+| - | - | - | 
+	<% for(column in tableVo.columnVoList){ %>
+| ${column.columnName} | ${column.typeName} | ${column.remarks} |
+	<% } %>
+<% } %>
