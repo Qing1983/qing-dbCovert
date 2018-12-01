@@ -12,7 +12,8 @@ import ${ctx.servicePackage}.${ctx.serviceClass};
 
 import lombok.extern.slf4j.Slf4j;
 import xingkong.tool.core.web.form.PageForm;
-
+import com.github.pagehelper.PageInfo;
+@Slf4j
 @Service
 public class ${ctx.implClass} implements ${ctx.serviceClass} {
 
@@ -20,13 +21,18 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
     ${ctx.daoClass} ${ctx.daoObj};
 
     @Override
-    public List<${ctx.modelClass}> list(${ctx.modelClass} ${ctx.modelObj},  PageForm pageForm) {
+    public PageInfo<${ctx.modelClass}> list(${ctx.modelClass} ${ctx.modelObj},  PageForm pageForm) {
         if (pageForm.getPageNo() != null && pageForm.getPageSize() != null) {
             PageHelper.startPage(pageForm.getPageNo(), pageForm.getPageSize());
         }
-        return ${ctx.daoObj}.select(${ctx.modelObj});
+        List<${ctx.modelClass}> ${ctx.modelObj}List = ${ctx.daoObj}.select(${ctx.modelObj});
+        
+        // 返回分页对象
+        PageInfo<${ctx.modelClass}> ${ctx.modelObj}PageInfo = new PageInfo<>(${ctx.modelObj}List);
+        
+        return ${ctx.modelObj}PageInfo;
     }
-
+    
     @Override
     public int add(${ctx.modelClass} ${ctx.modelObj}) {
         int id = ${ctx.daoObj}.insertSelective(${ctx.modelObj});

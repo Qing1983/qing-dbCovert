@@ -35,19 +35,20 @@ public class Main {
 		// 渲染输出
 		// BeetlRenderUtil.renderFile(dbService.getDbVo(),Config.theme,
 		// "/mysql.md.btl");
-		
+		genSpringTrainTheme(dbService);
+
 	}
-	
+
 	/**
 	 * 生成spring 火车故障系统的代码
+	 * 
 	 * @param dbService
 	 * @throws Exception
 	 */
-	public static void genSpringTrainTheme(DBService dbService) throws Exception
-	{
+	public static void genSpringTrainTheme(DBService dbService) throws Exception {
 		String packagePrefix = "com.szzt.train.tfds.web.business.";
 		String moduleName = "user";
-		
+
 		HashMap tableMap = new HashMap();
 		tableMap.put("user", new ModuleVo("user", "用户"));
 		tableMap.put("department", new ModuleVo("user", "部门"));
@@ -58,12 +59,12 @@ public class Main {
 		tableMap.put("tfOpTrain", new ModuleVo("train", "列车"));
 		tableMap.put("tfOpVehicle", new ModuleVo("train", "机车"));
 		tableMap.put("viewRoleMenu", new ModuleVo("user", "角色菜单"));
-		
-		for (TableVo curTableVo : dbService.getDbVo().getTableVoList()) { 
+
+		for (TableVo curTableVo : dbService.getDbVo().getTableVoList()) {
 			ModuleVo curModule = (ModuleVo) tableMap.get(curTableVo.getCamelTableName());
 			SpringTrainTheme fielVo = new SpringTrainTheme(curModule.getTableCN(), curTableVo, curModule.getModelName(), packagePrefix, Config.outDir, Config.theme);
 			fielVo.render();
-			
+
 		}
 
 	}
