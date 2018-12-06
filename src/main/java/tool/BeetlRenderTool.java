@@ -1,4 +1,4 @@
-package db.util;
+package tool;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import org.beetl.core.resource.StringTemplateResourceLoader;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class BeetlRenderUtil {
+public class BeetlRenderTool {
 
 	public static Template getFileTemplate(String path, String fileName) throws Exception {
 		ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader(path);

@@ -5,9 +5,9 @@ import java.io.IOException;
 import org.beetl.core.Template;
 
 import db.model.TableVo;
-import db.util.BeetlRenderUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import tool.BeetlRenderTool;
 import tool.FileTool;
 import tool.JsonTool;
 import tool.StringTool;
@@ -73,28 +73,28 @@ public class SpringTrainTheme {
 	 * @throws IOException
 	 */
 	public void renderName() throws IOException {
-		daoPackage = prefixPackage + BeetlRenderUtil.renderText("ctx", (Object) this, daoPackage);
-		daoClass = StringTool.upperCaseFirst(BeetlRenderUtil.renderText("ctx", (Object) this, daoClass));
+		daoPackage = prefixPackage + BeetlRenderTool.renderText("ctx", (Object) this, daoPackage);
+		daoClass = StringTool.upperCaseFirst(BeetlRenderTool.renderText("ctx", (Object) this, daoClass));
 		daoObj = StringTool.lowerCaseFirst(daoClass);
 		
-		modelPackage = prefixPackage + BeetlRenderUtil.renderText("ctx", (Object) this, modelPackage);
-		modelClass = StringTool.upperCaseFirst(BeetlRenderUtil.renderText("ctx", (Object) this, modelClass));
+		modelPackage = prefixPackage + BeetlRenderTool.renderText("ctx", (Object) this, modelPackage);
+		modelClass = StringTool.upperCaseFirst(BeetlRenderTool.renderText("ctx", (Object) this, modelClass));
 		modelObj = StringTool.lowerCaseFirst(modelClass);
 
-		servicePackage = prefixPackage + BeetlRenderUtil.renderText("ctx", (Object) this, servicePackage);
-		serviceClass = StringTool.upperCaseFirst(BeetlRenderUtil.renderText("ctx", (Object) this, serviceClass));
+		servicePackage = prefixPackage + BeetlRenderTool.renderText("ctx", (Object) this, servicePackage);
+		serviceClass = StringTool.upperCaseFirst(BeetlRenderTool.renderText("ctx", (Object) this, serviceClass));
 		serviceObj = StringTool.lowerCaseFirst(serviceClass);
 
-		implPackage = prefixPackage + BeetlRenderUtil.renderText("ctx", (Object) this, implPackage);
-		implClass = StringTool.upperCaseFirst(BeetlRenderUtil.renderText("ctx", (Object) this, implClass));
+		implPackage = prefixPackage + BeetlRenderTool.renderText("ctx", (Object) this, implPackage);
+		implClass = StringTool.upperCaseFirst(BeetlRenderTool.renderText("ctx", (Object) this, implClass));
 		implObj = StringTool.lowerCaseFirst(implClass);
 
-		controllerPackage = prefixPackage + BeetlRenderUtil.renderText("ctx", (Object) this, controllerPackage);
-		controllerClass = StringTool.upperCaseFirst(BeetlRenderUtil.renderText("ctx", (Object) this, controllerClass));
+		controllerPackage = prefixPackage + BeetlRenderTool.renderText("ctx", (Object) this, controllerPackage);
+		controllerClass = StringTool.upperCaseFirst(BeetlRenderTool.renderText("ctx", (Object) this, controllerClass));
 		controllerObj = StringTool.lowerCaseFirst(controllerClass);
 		
-		mapperxmlPackage = "mapper." + BeetlRenderUtil.renderText("ctx", (Object) this, mapperxmlPackage);
-		mapperxmlClass = StringTool.upperCaseFirst(BeetlRenderUtil.renderText("ctx", (Object) this, mapperxmlClass));
+		mapperxmlPackage = "mapper." + BeetlRenderTool.renderText("ctx", (Object) this, mapperxmlPackage);
+		mapperxmlClass = StringTool.upperCaseFirst(BeetlRenderTool.renderText("ctx", (Object) this, mapperxmlClass));
 		mapperxmlObj=StringTool.lowerCaseFirst(mapperxmlClass);
 
 		log.info(JsonTool.toJSON(this));
@@ -115,7 +115,7 @@ public class SpringTrainTheme {
 		String outFilePath = outPath + "/" + packageName.replace('.', '/') + "/" + className + fileSuffix;
 
 		// 根据模版渲染文件
-		Template template = BeetlRenderUtil.getFileTemplate(beetlPath,   templateName );
+		Template template = BeetlRenderTool.getFileTemplate(beetlPath,   templateName );
 		template.binding("ctx", this);
 		String text = template.render();
 		log.info("\n"+ text);

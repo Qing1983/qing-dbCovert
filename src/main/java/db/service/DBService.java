@@ -1,4 +1,4 @@
-package db.util;
+package db.service;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;

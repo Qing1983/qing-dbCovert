@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import db.model.ModuleVo;
 import db.model.TableVo;
-import db.util.DBService;
+import db.service.DBService;
 import global.Config;
 import theme.SpringTrainTheme;
 
