@@ -58,6 +58,16 @@ public class SpringTrainTheme {
 	String outPath; // 输出文件夹
 	String beetlPath; // 模版文件夹
 
+	/**
+	 * 初始化SpringTrain主题
+	 * @param tableCN
+	 * @param tableVo
+	 * @param moduleName
+	 * @param prefixPackage
+	 * @param outPath
+	 * @param beetlPath
+	 * @throws Exception
+	 */
 	public SpringTrainTheme(String tableCN, TableVo tableVo, String moduleName, String prefixPackage, String outPath, String beetlPath) throws Exception {
 		this.tableCN = tableCN;
 		this.tableVo = tableVo;
@@ -69,7 +79,7 @@ public class SpringTrainTheme {
 	}
 
 	/**
-	 * 渲染名称
+	 * 渲染文件名称
 	 * @throws IOException
 	 */
 	public void renderName() throws IOException {
@@ -130,11 +140,11 @@ public class SpringTrainTheme {
 	 */
 	public void render() throws Exception {
 		renderName();
-		renderFile(controllerPackage, controllerClass, controllerObj, ".java", "controller.btl");
-		renderFile(daoPackage, daoClass, daoObj, ".java", "dao.btl");
-		renderFile(modelPackage, modelClass, modelObj, ".java", "model.btl");
-		renderFile(servicePackage, serviceClass, serviceObj, ".java", "service.btl");
-		renderFile(implPackage, implClass, implObj, ".java", "serviceImpl.btl");
-		renderFile(mapperxmlPackage, mapperxmlClass, mapperxmlObj, ".xml", "mapper.btl");	
+		renderFile(controllerPackage, controllerClass, controllerObj, ".java", "controller.btl"); //控制器
+		renderFile(daoPackage, daoClass, daoObj, ".java", "dao.btl"); // dao层文件
+		renderFile(modelPackage, modelClass, modelObj, ".java", "model.btl"); // model层文件
+		renderFile(servicePackage, serviceClass, serviceObj, ".java", "service.btl"); // service层文件
+		renderFile(implPackage, implClass, implObj, ".java", "serviceImpl.btl"); // service impl文件
+		renderFile(mapperxmlPackage, mapperxmlClass, mapperxmlObj, ".xml", "mapper.btl"); //mapper.xml文件
 	}
 }
