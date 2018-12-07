@@ -40,7 +40,7 @@ public class SpringTrainTheme {
 	String serviceObj = ""; // service对象名
 
 	String implPackage = "db.${ctx.moduleName}.service.impl";// impl 包名
-	String implClass = "${ctx.tableVo.camelTableName}serviceImpl"; // impl 类名
+	String implClass = "${ctx.tableVo.camelTableName}ServiceImpl"; // impl 类名
 	String implObj = "";
 
 	String controllerPackage = "controller.${ctx.moduleName}"; // controller包名
