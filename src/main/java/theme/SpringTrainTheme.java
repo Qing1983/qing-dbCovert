@@ -107,7 +107,7 @@ public class SpringTrainTheme {
 		mapperxmlClass = StringTool.upperCaseFirst(BeetlRenderTool.renderText("ctx", (Object) this, mapperxmlClass));
 		mapperxmlObj=StringTool.lowerCaseFirst(mapperxmlClass);
 
-		log.info(JsonTool.toJSON(this));
+		log.debug(JsonTool.toJSON(this));
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class SpringTrainTheme {
 		Template template = BeetlRenderTool.getFileTemplate(beetlPath,   templateName );
 		template.binding("ctx", this);
 		String text = template.render();
-		log.info("\n"+ text);
+		log.debug("\n"+ text);
 		
 		// 渲染的内容写入文件
 		StringTool.writeStringToFile(outFilePath, text);
