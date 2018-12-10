@@ -7,11 +7,20 @@ import org.apache.commons.io.FileUtils;
 
 public class StringTool {
 
-	
+	/**
+	 * 大写首字母
+	 * @param text
+	 * @return
+	 */
 	public static String  upperCaseFirst(String text ){
 		return text.substring(0, 1).toUpperCase() + text.substring(1);
 	}
 	
+	/**
+	 * 小写首字母
+	 * @param text
+	 * @return
+	 */
 	public static String lowerCaseFirst(String text){
 		return text.substring(0, 1).toLowerCase() + text.substring(1);
 	}

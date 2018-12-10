@@ -7,7 +7,11 @@ public class NameTool {
 
 	public static final char UNDERLINE = '_';
 
-	// 判断是否是驼峰
+	/**
+	 * 判断是否是驼峰
+	 * @param text
+	 * @return
+	 */
 	public static boolean isCamel(String text) {
 		if (text == null || text.contains("_")) {
 			return false;
@@ -15,7 +19,11 @@ public class NameTool {
 		
 		return true;
 	}
-
+	/**
+	 * 转换成下划线命名
+	 * @param text
+	 * @return
+	 */
 	public static String toUnderline(String text) {
 
 		if (text == null || "".equals(text.trim())) {
@@ -38,7 +46,11 @@ public class NameTool {
 		}
 		return sb.toString();
 	}
-
+	/**
+	 * 转换成驼峰命名
+	 * @param text
+	 * @return
+	 */
 	public static String toCamel(String text) {
 		if (text == null || "".equals(text.trim())) {
 			return "";

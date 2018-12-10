@@ -56,14 +56,24 @@ public class Main {
 		tableMap.put("menu", new ModuleVo("user", "菜单"));
 		tableMap.put("role", new ModuleVo("user", "角色"));
 		tableMap.put("roleMenu", new ModuleVo("user", "角色菜单"));
+		tableMap.put("group", new ModuleVo("user", "分组"));
+		tableMap.put("groupUser", new ModuleVo("user", "分组", true));
+		tableMap.put("viewGroupUser", new ModuleVo("user", "分组用户列表"));
 		tableMap.put("tfOpTrain", new ModuleVo("train", "列车"));
 		tableMap.put("tfOpVehicle", new ModuleVo("train", "机车"));
 		tableMap.put("viewRoleMenu", new ModuleVo("user", "角色菜单"));
 
 		for (TableVo curTableVo : dbService.getDbVo().getTableVoList()) {
 			ModuleVo curModule = (ModuleVo) tableMap.get(curTableVo.getCamelTableName());
-			SpringTrainTheme fielVo = new SpringTrainTheme(curModule.getTableCN(), curTableVo, curModule.getModelName(), packagePrefix, Config.outDir, Config.theme);
-			fielVo.render();
+			if( curModule == null ){
+				log.error("没有配置表或者视图"+curTableVo.getCamelTableName()+"对应的模块");
+			}
+			if (curModule.isSkip()) {
+				log.info("用户要求跳过"+curModule.getModelName()+"模块中的"+curModule.getTableCN()+"表");
+			} else {
+				SpringTrainTheme fielVo = new SpringTrainTheme(curModule.getTableCN(), curTableVo, curModule.getModelName(), packagePrefix, Config.outDir, Config.theme);
+				fielVo.render();
+			}
 
 		}
 
