@@ -62,6 +62,10 @@ public class Main {
 		tableMap.put("tfOpTrain", new ModuleVo("train", "列车"));
 		tableMap.put("tfOpVehicle", new ModuleVo("train", "机车"));
 		tableMap.put("viewRoleMenu", new ModuleVo("user", "角色菜单"));
+		tableMap.put("groupWork", new ModuleVo("work", "组工作记录"));
+		tableMap.put("userWork", new ModuleVo("work", "用户工作记录"));
+		tableMap.put("workPlan", new ModuleVo("work", "工作计划"));
+		
 
 		for (TableVo curTableVo : dbService.getDbVo().getTableVoList()) {
 			ModuleVo curModule = (ModuleVo) tableMap.get(curTableVo.getCamelTableName());
@@ -74,7 +78,6 @@ public class Main {
 				SpringTrainTheme fielVo = new SpringTrainTheme(curModule.getTableCN(), curTableVo, curModule.getModelName(), packagePrefix, Config.outDir, Config.theme);
 				fielVo.render();
 			}
-
 		}
 
 	}
