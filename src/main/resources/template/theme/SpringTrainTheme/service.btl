@@ -9,12 +9,18 @@ import xingkong.tool.core.web.form.PageForm;
 public interface ${ctx.serviceClass} {
     
     PageInfo<${ctx.modelClass}> list(${ctx.modelClass} ${ctx.modelObj}, PageForm pageForm);
-
-    ${ctx.modelClass} view(${ctx.modelClass} ${ctx.modelObj});
-
+    
     int add(${ctx.modelClass} ${ctx.modelObj});
 
+    
     void delete(${ctx.modelClass} ${ctx.modelObj});
 
+    
     void update(${ctx.modelClass} ${ctx.modelObj});
+    
+    
+    ${ctx.modelClass} view(${ctx.modelClass} ${ctx.modelObj});
+    
+    
+    
 }

@@ -51,7 +51,7 @@ public class Config {
 			log.info("mysqlUser : " + mysqlUser);
 			log.info("mysqlPassword : " + mysqlPassword);
 			log.info("theme : " + theme);
-			log.info("outDir : " + mysqlPassword);
+			log.info("outDir : " + outDir);
 
 			return true;
 

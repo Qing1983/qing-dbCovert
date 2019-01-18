@@ -67,4 +67,16 @@ public class ${ctx.controllerClass} {
         }
     }
 
+    @Title("查看${ctx.tableCN}单条记录")
+    @RequestMapping("view")
+    //@RequiresPermissions("${ctx.tableVo.camelTableName}:view")
+    public ResponseVo view(${ctx.modelClass} ${ctx.modelObj}) {
+        try {
+            ${ctx.modelClass} res${ctx.modelClass} = ${ctx.serviceObj}.view(${ctx.modelObj});
+            return ResponseTool.success(res${ctx.modelClass});
+        } catch (Exception e) {
+            log.error("查看${ctx.tableCN}失败", e);
+            return ResponseTool.error("查看${ctx.tableCN}失败，请联系网站管理员!");
+        }
+    }
 }

@@ -1,10 +1,14 @@
 package theme;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.beetl.core.Template;
 
+import db.model.ModuleVo;
 import db.model.TableVo;
+import db.service.DBService;
+import global.Config;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import tool.BeetlRenderTool;
@@ -153,5 +157,70 @@ public class SpringTrainTheme {
 		renderFile(implPackage, implClass, implObj, ".java", "serviceImpl.btl"); // service
 																					// impl文件
 		renderFile(mapperxmlPackage, mapperxmlClass, mapperxmlObj, ".xml", "mapper.btl"); // mapper.xml文件
+	}
+	
+	/**
+	 * 生成spring 火车故障系统的代码
+	 * 
+	 * @param dbService
+	 * @throws Exception
+	 */
+	public static void genSpringTrainTheme(DBService dbService) throws Exception {
+		// String packagePrefix = "com.szzt.train.tfds.web.business.";
+		String packagePrefix = "com.szzt.train.tfds.monitor.business.";
+		String moduleName = "user";
+
+		HashMap tableMap = new HashMap();
+		tableMap.put("user", new ModuleVo("user", "用户"));
+		tableMap.put("department", new ModuleVo("user", "部门"));
+		tableMap.put("menu", new ModuleVo("user", "菜单"));
+		tableMap.put("role", new ModuleVo("user", "角色"));
+		tableMap.put("roleMenu", new ModuleVo("user", "角色菜单"));
+		tableMap.put("group", new ModuleVo("user", "分组"));
+		tableMap.put("groupUser", new ModuleVo("user", "分组用户"));
+		tableMap.put("viewGroupUser", new ModuleVo("user", "分组用户视图列表"));
+		tableMap.put("teamDuty", new ModuleVo("user", "值班分组"));
+		
+		tableMap.put("dict", new ModuleVo("system", "词典"));
+		
+		tableMap.put("tfOpTrain", new ModuleVo("train", "列车"));
+		tableMap.put("tfOpVehicle", new ModuleVo("train", "机车"));
+		
+		tableMap.put("viewRoleMenu", new ModuleVo("user", "角色菜单"));
+		
+		
+		tableMap.put("groupWork", new ModuleVo("work", "组工作记录"));
+		tableMap.put("userWork", new ModuleVo("work", "用户工作记录"));
+		tableMap.put("workPlan", new ModuleVo("work", "工作计划"));
+		
+		
+		tableMap.put("tfCfgFaultClass", new ModuleVo("fault", "故障"));
+		tableMap.put("tfDzFault", new ModuleVo("fault", "故障"));
+		tableMap.put("tfOpFault", new ModuleVo("fault", "故障"));
+		
+		
+		
+
+		log.info("==========================================");
+		log.info("生成 spring trian theme 开始");
+		log.info("==========================================");
+
+		for (TableVo curTableVo : dbService.getDbVo().getTableVoList()) {
+			ModuleVo curModule = (ModuleVo) tableMap.get(curTableVo.getCamelTableName());
+			if( curModule == null ){
+				log.error("没有配置表或者视图"+curTableVo.getCamelTableName()+"对应的模块");
+				continue;
+			}
+			if (curModule.isSkip()) {
+				log.info("用户要求跳过"+curModule.getModelName()+"模块中的"+curModule.getTableCN()+"表");
+			} else {
+				SpringTrainTheme fielVo = new SpringTrainTheme(curModule.getTableCN(), curTableVo, curModule.getModelName(), packagePrefix, Config.outDir, Config.theme);
+				fielVo.render();
+			}
+		}
+		
+		log.info("==========================================");
+		log.info("生成 spring trian theme 结束");
+		log.info("==========================================");
 	}
 }

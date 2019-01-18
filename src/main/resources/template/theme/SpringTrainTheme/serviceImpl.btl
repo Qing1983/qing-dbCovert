@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import ${ctx.daoPackage}.${ctx.daoClass};
 import ${ctx.modelPackage}.${ctx.modelClass};
@@ -12,7 +13,7 @@ import ${ctx.servicePackage}.${ctx.serviceClass};
 
 import lombok.extern.slf4j.Slf4j;
 import xingkong.tool.core.web.form.PageForm;
-import com.github.pagehelper.PageInfo;
+
 @Slf4j
 @Service
 public class ${ctx.implClass} implements ${ctx.serviceClass} {
@@ -43,14 +44,14 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
     @Transactional
     public void delete(${ctx.modelClass} ${ctx.modelObj}) {
         if (${ctx.modelObj} != null) {
-            ${ctx.daoObj}.deleteByExample(${ctx.modelObj});
-        }}
+            ${ctx.daoObj}.delete(${ctx.modelObj});
+        }
+    }
 
     @Override
     @Transactional
     public void update(${ctx.modelClass} ${ctx.modelObj}) {
-        if ( ${ctx.modelObj} != null)
-        {
+        if ( ${ctx.modelObj} != null) {
             ${ctx.daoObj}.updateByPrimaryKeySelective(${ctx.modelObj});
         }
     }
