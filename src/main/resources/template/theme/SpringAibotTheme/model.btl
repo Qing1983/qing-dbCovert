@@ -1,0 +1,26 @@
+package ${ctx.modelPackage};
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.szzt.train.tfds.web.framework.annotation.ExportConfig;
+
+import lombok.Data;
+import lombok.ToString;
+
+/**
+ * @desc ${ctx.tableCN}
+ */
+
+@Table(name = "${ctx.tableVo.tableName}")
+@Data
+@ToString
+public class ${ctx.modelClass} {
+<% for(columnVo in ctx.tableVo.columnVoList) { %>
+    private ${columnVo.javaType} ${columnVo.camelColumnName}; // ${columnVo.remarks!}
+<% } %>
+}

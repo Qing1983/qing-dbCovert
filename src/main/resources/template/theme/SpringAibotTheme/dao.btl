@@ -1,0 +1,10 @@
+package ${ctx.daoPackage};
+
+import ${ctx.modelPackage}.${ctx.modelClass};
+import com.szzt.train.tfds.web.framework.mapper.MybatisMapper;
+/**
+ * @desc ${ctx.tableCN}
+ */
+public interface ${ctx.daoClass} extends MybatisMapper<${ctx.modelClass}> {
+
+}
