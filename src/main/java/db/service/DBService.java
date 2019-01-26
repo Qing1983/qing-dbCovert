@@ -49,6 +49,12 @@ public class DBService {
 		return true;
 	}
 
+	public boolean connect () throws SQLException {
+		Connection conn = DriverManager.getConnection(url + db + urlParam, userName, password);
+		conn.close();
+		return true;
+	}
+
 	/**
 	 * 加载数据库实例schema到model中
 	 * 

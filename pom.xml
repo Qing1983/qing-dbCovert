@@ -5,6 +5,7 @@
 	<groupId>net.nieqing</groupId>
 	<artifactId>qing-dbcovert</artifactId>
 	<version>1.00</version>
+
 	<properties>
 
 		<!-- 编译属性定义开始 -->
@@ -69,13 +70,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.20</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>com.ibeetl</groupId>
 			<artifactId>beetl</artifactId>
 			<version>2.9.6</version>
@@ -92,6 +86,15 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.55</version>
+		</dependency>
+
+
+
 	</dependencies>
 
 	<build>
@@ -99,62 +102,30 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.0.2</version>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.1</version>
 				<configuration>
 					<archive>
 						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>. lib/</classpathPrefix>
 							<mainClass>main.Main</mainClass>
 						</manifest>
 					</archive>
-
-					<excludes>
-						<exclude>**/*.properties</exclude>
-						<exclude>**/conf/*.xml</exclude>
-					</excludes>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.10</version>
 				<executions>
 					<execution>
-						<id>copy-dependencies</id>
+						<id>make-assembly</id>
 						<phase>package</phase>
 						<goals>
-							<goal>copy-dependencies</goal>
+							<goal>single</goal>
 						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 
 		</plugins>
-
-		<resources>
-			<resource>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**/*.properties</include>
-					<include>**/*.xml</include>
-				</includes>
-				<!-- 是否替换资源中的属性 -->
-				<filtering>false</filtering>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*.*</include>
-					<!-- <include>**/*.properties</include> <include>**/*.xml</include> -->
-				</includes>
-				<filtering>false</filtering>
-			</resource>
-		</resources>
 	</build>
 
 </project>
