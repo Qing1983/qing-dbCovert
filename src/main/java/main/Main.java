@@ -1,6 +1,7 @@
 package main;
 
 import methods.MethodsHandler;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Decoder;
@@ -17,7 +18,7 @@ public class Main {
 			Object result = MethodsHandler.handler(cmdName, params);
 			ResultTool.success(result);
 		} catch (Exception e) {
-			ResultTool.error(e.getMessage());
+			ResultTool.error(ExceptionUtils.getStackTrace(e));
 		}
 	}
 
