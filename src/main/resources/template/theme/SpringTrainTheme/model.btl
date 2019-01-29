@@ -14,16 +14,17 @@ import lombok.ToString;
 
 /**
  * @desc ${ctx.tableCN}
- * ${date(), "yyyy-MM-dd"}
  */
 
 @Table(name = "${ctx.tableVo.tableName}")
 @Data
 @ToString
 public class ${ctx.modelClass} {
-
 <% for(columnVo in ctx.tableVo.columnVoList) { %>
-    private ${columnVo.javaType} ${columnVo.camelColumnName}; // ${columnVo.remarks!}
+    /**
+     * ${columnVo.remarks!}
+     */
+    private ${columnVo.javaType} ${columnVo.camelColumnName}; 
+    
 <% } %>
-
 }

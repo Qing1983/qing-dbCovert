@@ -2,7 +2,6 @@ package ${ctx.controllerPackage};
 
 import ${ctx.servicePackage}.${ctx.serviceClass};
 import ${ctx.modelPackage}.${ctx.modelClass};
-import com.szzt.train.tfds.web.framework.annotation.Title;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +12,10 @@ import xingkong.tool.core.ResponseTool;
 import xingkong.tool.core.web.form.PageForm;
 import xingkong.tool.core.web.vo.ResponseVo;
 
+/**
+ * 
+ * @desc ${ctx.tableCN}控制器
+ */
 @Slf4j
 @RestController
 @RequestMapping("/${ctx.tableVo.camelTableName}")
@@ -20,15 +23,31 @@ public class ${ctx.controllerClass} {
 
     @Autowired
     ${ctx.serviceClass} ${ctx.serviceObj};
-
-    @Title("查看${ctx.tableCN}列表")
+    
+    /**
+     * 查看${ctx.tableCN}列表
+     * 
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @param pageForm 分页参数
+     * @return
+     */
     @RequestMapping("list")
     //@RequiresPermissions("${ctx.tableVo.camelTableName}:list")
     public ResponseVo list(${ctx.modelClass} ${ctx.modelObj}, PageForm pageForm) {
+        try {
         return ResponseTool.success(${ctx.serviceObj}.list(${ctx.modelObj}, pageForm));
+        } catch (Exception e) {
+            log.error("[-_-] 查看${ctx.tableCN}列表失败", e);
+            return ResponseTool.error("[-_-] 查看${ctx.tableCN}列表失败.");
+        }
     }
-    
-    @Title("查看${ctx.tableCN}单条记录")
+       
+    /**
+     * 查看${ctx.tableCN}单条记录
+     * 
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return
+     */ 
     @RequestMapping("view")
     //@RequiresPermissions("${ctx.tableVo.camelTableName}:view")
     public ResponseVo view(${ctx.modelClass} ${ctx.modelObj}) {
@@ -36,47 +55,62 @@ public class ${ctx.controllerClass} {
             ${ctx.modelClass} res${ctx.modelClass} = ${ctx.serviceObj}.view(${ctx.modelObj});
             return ResponseTool.success(res${ctx.modelClass});
         } catch (Exception e) {
-            log.error("查看${ctx.tableCN}失败", e);
-            return ResponseTool.error("查看${ctx.tableCN}失败，请联系网站管理员!");
+            log.error("[-_-] 查看${ctx.tableCN}失败", e);
+            return ResponseTool.error("[-_-] 查看${ctx.tableCN}失败，请联系网站管理员!");
         }
     }
     
-    @Title("新增${ctx.tableCN}")
+    /**
+     * 新增${ctx.tableCN}单条记录
+     * 
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return
+     */ 
     @RequestMapping("add")
     //@RequiresPermissions("${ctx.tableVo.camelTableName}:add")
     public ResponseVo add(${ctx.modelClass} ${ctx.modelObj}) {
         try {
             ${ctx.serviceObj}.add(${ctx.modelObj});
-            return ResponseTool.success("新增${ctx.tableCN}成功!");
+            return ResponseTool.success("[^_^] 新增${ctx.tableCN}成功!");
         } catch (Exception e) {
-            log.error("新增${ctx.tableCN}失败", e);
-            return ResponseTool.error("新增${ctx.tableCN}失败，请联系网站管理员!");
+            log.error("[-_-] 新增${ctx.tableCN}失败", e);
+            return ResponseTool.error("[-_-] 新增${ctx.tableCN}失败，请联系网站管理员!");
         }
     }
 
-    @Title("删除${ctx.tableCN}")
+    /**
+     * 删除${ctx.tableCN}记录
+     * 
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return
+     */ 
     @RequestMapping("delete")
     //@RequiresPermissions("${ctx.tableVo.camelTableName}:delete")
     public ResponseVo delete(${ctx.modelClass} ${ctx.modelObj}) {
         try {
             ${ctx.serviceObj}.delete(${ctx.modelObj});
-            return ResponseTool.success("删除${ctx.tableCN}成功!");
+            return ResponseTool.success("[^_^] 删除${ctx.tableCN}成功!");
         } catch (Exception e) {
-            log.error("删除${ctx.tableCN}失败", e);
-            return ResponseTool.error("删除${ctx.tableCN}失败，请联系网站管理员!");
+            log.error("[-_-] 删除${ctx.tableCN}失败", e);
+            return ResponseTool.error("[-_-] 删除${ctx.tableCN}失败，请联系网站管理员!");
         }
     }
 
-    @Title("修改${ctx.tableCN}")
+    /**
+     * 修改${ctx.tableCN}记录
+     * 
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return
+     */ 
     @RequestMapping("update")
     //@RequiresPermissions("${ctx.tableVo.camelTableName}:update")
     public ResponseVo update(${ctx.modelClass} ${ctx.modelObj}) {
         try {
             ${ctx.serviceObj}.update(${ctx.modelObj});
-            return ResponseTool.success("修改${ctx.tableCN}成功!");
+            return ResponseTool.success("[^_^] 修改${ctx.tableCN}成功!");
         } catch (Exception e) {
-            log.error("修改${ctx.tableCN}失败", e);
-            return ResponseTool.error("修改${ctx.tableCN}失败，请联系网站管理员!");
+            log.error("[-_-] 修改${ctx.tableCN}失败", e);
+            return ResponseTool.error("[-_-] 修改${ctx.tableCN}失败，请联系网站管理员!");
         }
     }
 

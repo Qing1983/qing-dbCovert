@@ -21,6 +21,10 @@ import lombok.ToString;
 @ToString
 public class ${ctx.modelClass} {
 <% for(columnVo in ctx.tableVo.columnVoList) { %>
-    private ${columnVo.javaType} ${columnVo.camelColumnName}; // ${columnVo.remarks!}
+    /**
+     * ${columnVo.remarks!}
+     */
+    private ${columnVo.javaType} ${columnVo.camelColumnName}; 
+    
 <% } %>
 }

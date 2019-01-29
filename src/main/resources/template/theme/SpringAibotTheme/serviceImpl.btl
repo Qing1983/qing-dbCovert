@@ -23,7 +23,7 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
 
     /**
      * 查看${ctx.tableCN}列表
-     * @param ${ctx.modelObj}
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
      * @param pageForm
      * @return
      */
@@ -42,7 +42,7 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
     
     /**
      * 查看${ctx.tableCN}单条记录
-     * @param ${ctx.modelObj}
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
      * @return 
      */
     @Override
@@ -52,7 +52,7 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
     
     /**
      * 新增${ctx.tableCN}单条记录
-     * @param ${ctx.modelObj}
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
      * @return 
      */
     @Override
@@ -63,7 +63,7 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
 
     /**
      * 删除${ctx.tableCN}单条记录
-     * @param ${ctx.modelObj}
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
      * @return 
      */
     @Override
@@ -76,7 +76,7 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
 
     /**
      * 更新${ctx.tableCN}单条记录
-     * @param ${ctx.modelObj}
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
      * @return 
      */
     @Override

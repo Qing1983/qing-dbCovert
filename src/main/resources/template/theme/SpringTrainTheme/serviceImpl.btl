@@ -21,6 +21,12 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
     @Autowired
     ${ctx.daoClass} ${ctx.daoObj};
 
+    /**
+     * 查看${ctx.tableCN}列表
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @param pageForm
+     * @return
+     */
     @Override
     public PageInfo<${ctx.modelClass}> list(${ctx.modelClass} ${ctx.modelObj},  PageForm pageForm) {
         if (pageForm.getPageNo() != null && pageForm.getPageSize() != null) {
@@ -34,12 +40,32 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
         return ${ctx.modelObj}PageInfo;
     }
     
+    /**
+     * 查看${ctx.tableCN}单条记录
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return 
+     */
+    @Override
+    public ${ctx.modelClass} view(${ctx.modelClass} ${ctx.modelObj}) {
+        return ${ctx.daoObj}.selectOne(${ctx.modelObj});
+    }
+    
+    /**
+     * 新增${ctx.tableCN}单条记录
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return 
+     */
     @Override
     public int add(${ctx.modelClass} ${ctx.modelObj}) {
         int id = ${ctx.daoObj}.insertSelective(${ctx.modelObj});
         return id;
     }
 
+    /**
+     * 删除${ctx.tableCN}单条记录
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return 
+     */
     @Override
     @Transactional
     public void delete(${ctx.modelClass} ${ctx.modelObj}) {
@@ -48,6 +74,11 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
         }
     }
 
+    /**
+     * 更新${ctx.tableCN}单条记录
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return 
+     */
     @Override
     @Transactional
     public void update(${ctx.modelClass} ${ctx.modelObj}) {
@@ -56,9 +87,6 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
         }
     }
 
-    @Override
-    public ${ctx.modelClass} view(${ctx.modelClass} ${ctx.modelObj}) {
-        return ${ctx.daoObj}.selectOne(${ctx.modelObj});
-    }
+
 
 }
