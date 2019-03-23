@@ -1,0 +1,45 @@
+package ${ctx.servicePackage};
+
+import java.util.List;
+
+import ${ctx.modelPackage}.${ctx.modelClass};
+import com.github.pagehelper.PageInfo;
+import xingkong.tool.core.web.form.PageForm;
+
+public interface ${ctx.serviceClass} {
+    /**
+     * 查看${ctx.tableCN}列表
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @param pageForm 分页表单参数
+     * @return
+     */
+    PageInfo<${ctx.modelClass}> list(${ctx.modelClass} ${ctx.modelObj}, PageForm pageForm);
+    
+    /**
+     * 查看${ctx.tableCN}单条记录
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return 
+     */
+    ${ctx.modelClass} view(${ctx.modelClass} ${ctx.modelObj});
+    
+    /**
+     * 新增${ctx.tableCN}单条记录
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return 
+     */
+    int add(${ctx.modelClass} ${ctx.modelObj});
+
+    /**
+     * 删除${ctx.tableCN}单条记录
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return 
+     */
+    void delete(${ctx.modelClass} ${ctx.modelObj});
+
+    /**
+     * 更新${ctx.tableCN}单条记录
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return 
+     */
+    void update(${ctx.modelClass} ${ctx.modelObj});
+}

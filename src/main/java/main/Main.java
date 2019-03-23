@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import db.service.DBService;
 import global.Config;
+import theme.SpringHeathTheme;
 import theme.SpringTrainTheme;
 
 public class Main {
@@ -31,7 +32,8 @@ public class Main {
 		// 渲染输出
 		// BeetlRenderUtil.renderFile(dbService.getDbVo(),Config.theme,
 		// "/mysql.md.btl");
-		SpringTrainTheme.genSpringTrainTheme(dbService);
+		//SpringTrainTheme.genSpringTrainTheme(dbService);
 		//SpringAiBotTheme.genSpringAibotTheme(dbService);
+		SpringHeathTheme.genTheme(dbService);
 	}
 }

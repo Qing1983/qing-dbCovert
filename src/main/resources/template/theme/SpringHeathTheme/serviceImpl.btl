@@ -1,0 +1,92 @@
+package ${ctx.implPackage};
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import ${ctx.daoPackage}.${ctx.daoClass};
+import ${ctx.modelPackage}.${ctx.modelClass};
+import ${ctx.servicePackage}.${ctx.serviceClass};
+
+import lombok.extern.slf4j.Slf4j;
+import xingkong.tool.core.web.form.PageForm;
+
+@Slf4j
+@Service
+public class ${ctx.implClass} implements ${ctx.serviceClass} {
+
+    @Autowired
+    ${ctx.daoClass} ${ctx.daoObj};
+
+    /**
+     * 查看${ctx.tableCN}列表
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @param pageForm
+     * @return
+     */
+    @Override
+    public PageInfo<${ctx.modelClass}> list(${ctx.modelClass} ${ctx.modelObj},  PageForm pageForm) {
+        if (pageForm.getPageNo() != null && pageForm.getPageSize() != null) {
+            PageHelper.startPage(pageForm.getPageNo(), pageForm.getPageSize());
+        }
+        List<${ctx.modelClass}> ${ctx.modelObj}List = ${ctx.daoObj}.select(${ctx.modelObj});
+        
+        // 返回分页对象
+        PageInfo<${ctx.modelClass}> ${ctx.modelObj}PageInfo = new PageInfo<>(${ctx.modelObj}List);
+        
+        return ${ctx.modelObj}PageInfo;
+    }
+    
+    /**
+     * 查看${ctx.tableCN}单条记录
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return 
+     */
+    @Override
+    public ${ctx.modelClass} view(${ctx.modelClass} ${ctx.modelObj}) {
+        return ${ctx.daoObj}.selectOne(${ctx.modelObj});
+    }
+    
+    /**
+     * 新增${ctx.tableCN}单条记录
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return 
+     */
+    @Override
+    public int add(${ctx.modelClass} ${ctx.modelObj}) {
+        int id = ${ctx.daoObj}.insertSelective(${ctx.modelObj});
+        return id;
+    }
+
+    /**
+     * 删除${ctx.tableCN}单条记录
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return 
+     */
+    @Override
+    @Transactional
+    public void delete(${ctx.modelClass} ${ctx.modelObj}) {
+        if (${ctx.modelObj} != null) {
+            ${ctx.daoObj}.delete(${ctx.modelObj});
+        }
+    }
+
+    /**
+     * 更新${ctx.tableCN}单条记录
+     * @param ${ctx.modelObj} ${ctx.tableCN}表单参数
+     * @return 
+     */
+    @Override
+    @Transactional
+    public void update(${ctx.modelClass} ${ctx.modelObj}) {
+        if ( ${ctx.modelObj} != null) {
+            ${ctx.daoObj}.updateByPrimaryKeySelective(${ctx.modelObj});
+        }
+    }
+
+
+
+}
