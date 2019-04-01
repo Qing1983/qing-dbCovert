@@ -8,15 +8,16 @@ import global.Config;
 import theme.SpringHeathTheme;
 import theme.SpringTrainTheme;
 
-public class Main {
+public class DBCovertMain {
 
-	private static final Logger log = LoggerFactory.getLogger(Main.class);
+	private static final Logger log = LoggerFactory.getLogger(DBCovertMain.class);
 
 	public static void main(String[] args) throws Exception {
 
 		// 加载数据库驱动
 		Class.forName("org.postgresql.Driver");
 		Class.forName("com.mysql.cj.jdbc.Driver");
+		Class.forName("oracle.jdbc.driver.OracleDriver");
 
 		// 读取配置文件
 		if (!Config.init()) {
@@ -25,8 +26,10 @@ public class Main {
 		}
 
 		// 填充数据库表VO
-
-		DBService dbService = new DBService(global.Config.mysqlUrl, global.Config.mysqlDB, global.Config.mysqlUrlParam, global.Config.mysqlUser, global.Config.mysqlPassword);
+		// mysql
+		// DBService dbService = new DBService(global.Config.mysqlUrl, global.Config.mysqlDB, global.Config.mysqlUrlParam, global.Config.mysqlUser, global.Config.mysqlPassword);
+		// oracle
+		DBService dbService = new DBService(global.Config.oracleUrl, "", "", global.Config.oracleUsername, global.Config.oraclePassword);
 		dbService.load();
 
 		// 渲染输出

@@ -166,10 +166,19 @@ public class SpringHeathTheme {
 	 * @throws Exception
 	 */
 	public static void genTheme(DBService dbService) throws Exception {
-		String packagePrefix = "com.greatwall.health.business.dest.";
+		String packagePrefix = "com.greatwall.health.business.";
 		
 		HashMap tableMap = new HashMap();
-		tableMap.put("user", new ModuleVo("user", "用户"));
+		tableMap.put("TBHZJBXX", new ModuleVo("basic", "基本患者信息"));
+		
+		tableMap.put("TBMZGH", new ModuleVo("mz", "门诊挂号表"));
+		tableMap.put("TBMZJZJL", new ModuleVo("mz", "门诊就诊记录表"));
+		tableMap.put("TBMZCFZXX", new ModuleVo("mz", "门诊处方主信息表"));
+		tableMap.put("TBMZCFMX", new ModuleVo("mz", "门诊处方明细表"));
+		tableMap.put("TBMZCFZXJL", new ModuleVo("mz", "门诊处方医嘱执行记录"));
+
+		tableMap.put("TBMZSFHZ", new ModuleVo("sf", "门诊收费汇总表"));
+		tableMap.put("TBMZSFMX", new ModuleVo("sf", "门诊收费明细表"));
 		
 		log.info("==========================================");
 		log.info("生成 spring heath theme 开始");
@@ -180,7 +189,7 @@ public class SpringHeathTheme {
 			if (curModule == null) {
 				log.error("没有配置表或者视图" + curTableVo.getCamelTableName() + "对应的模块");
 			}
-			if (curModule.isSkip()) {
+			else if (curModule.isSkip()) {
 				log.info("用户要求跳过" + curModule.getModelName() + "模块中的" + curModule.getTableCN() + "表");
 			} else {
 				SpringHeathTheme fielVo = new SpringHeathTheme(curModule.getTableCN(), curTableVo, curModule.getModelName(), packagePrefix, Config.outDir, Config.theme);

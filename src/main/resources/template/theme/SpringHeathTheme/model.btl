@@ -23,7 +23,8 @@ public class ${ctx.modelClass} {
     /**
      * ${columnVo.remarks!}
      */
-    private ${columnVo.javaType} ${columnVo.camelColumnName}; 
+    @Column(name = "${columnVo.columnName}")
+    private ${columnVo.javaType} ${columnVo.columnName}; 
     
 <% } %>
 }

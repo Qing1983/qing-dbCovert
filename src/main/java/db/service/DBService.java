@@ -33,6 +33,8 @@ public class DBService {
 		this.dbVo = new DBVo();
 	}
 
+	
+	
 	public DBService(String url, String db, String urlParam, String userName, String password) {
 		this.url = url;
 		this.db = db;
@@ -82,7 +84,7 @@ public class DBService {
 		try {
 
 			dbmd = conn.getMetaData();
-			ResultSet resultSet = dbmd.getTables(this.db, null, null, new String[] { "TABLE", "VIEW" });
+			ResultSet resultSet = dbmd.getTables(this.db, null, "TB%", new String[] { "TABLE", "VIEW" });
 
 			while (resultSet.next()) {
 				TableVo tableVo = new TableVo();
@@ -93,12 +95,13 @@ public class DBService {
 				String tableRemarks = resultSet.getString("REMARKS"); // 表备注
 				String camelTableName = NameTool.toCamel(tableName);
 
-				log.debug(tableCat + "," + tableSchema + "," + tableType + ",表名" + tableName + " 注释:" + tableRemarks);
+				log.info(tableCat + "," + tableSchema + "," + tableType + ",表名" + tableName + " 注释:" + tableRemarks);
 
 				tableVo.setTableName(tableName);
 				tableVo.setLowerCaseTableName(tableName.toLowerCase());
 				tableVo.setCamelTableName(camelTableName);
 				tableVo.setTalbleRemarks(tableRemarks);
+				log.info(tableVo.getTableName()+" , "+tableVo.getLowerCaseTableName() + " , "+ tableVo.getCamelTableName());
 
 				ResultSet rs = conn.getMetaData().getColumns(tableCat, null, tableName, "%");
 				while (rs.next()) {
@@ -111,10 +114,11 @@ public class DBService {
 					PrimaryKeyVo primaryKeyVo = this.getPrimaryKeyVo(rs);
 					tableVo.addPrimaryKey(primaryKeyVo);
 				}
-
+				rs.close();
 				dbVo.getTableVoList().add(tableVo);
 
 			}
+			resultSet.close();
 		} catch (SQLException e) {
 			log.error("sql 异常", e);
 

@@ -16,6 +16,14 @@ public class Config {
 	public static String mysqlUser = null;
 	public static String mysqlPassword = null;
 
+	// oralce 配置文件
+	public static String oracleUrl = null;
+	public static String oracleUsername = null;
+	public static String oraclePassword = null;
+	public static int oracleInitialSize = 5;
+	public static int oracleMinIdle = 5;
+	public static int oracleMaxActive = 50;
+
 	public static String theme = null;
 	public static String outDir = null;
 
@@ -38,6 +46,15 @@ public class Config {
 			mysqlUrlParam = config.getString("mysqlUrlParam", "");
 			mysqlUser = config.getString("mysqlUser", "");
 			mysqlPassword = config.getString("mysqlPassword", "");
+			
+			
+			oracleUrl = config.getString("oracle-url", "jdbc:oracle:thin:@127.0.0.1:1521/keep");
+			oracleUsername = config.getString("oracle-username", "EXCHANGE");
+			oraclePassword = config.getString("oracle-password", "keep" );
+			oracleInitialSize = config.getInt("oracle-initial-size", 5 );
+			oracleMinIdle = config.getInt("oracle-min-idle", 5 );
+			oracleMaxActive = config.getInt("oracle-max-active", 50 );
+			
 
 			theme = config.getString("theme", "");
 			outDir = config.getString("outDir", "");
