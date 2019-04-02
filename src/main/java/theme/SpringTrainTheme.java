@@ -198,9 +198,6 @@ public class SpringTrainTheme {
 		tableMap.put("tfDzFault", new ModuleVo("fault", "故障"));
 		tableMap.put("tfOpFault", new ModuleVo("fault", "故障"));
 		
-		
-		
-
 		log.info("==========================================");
 		log.info("生成 spring trian theme 开始");
 		log.info("==========================================");

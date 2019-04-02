@@ -7,5 +7,5 @@ import com.greatwall.health.framework.mapper.MybatisMapper;
  * @desc ${ctx.tableCN}
  */
 public interface ${ctx.daoClass} extends MybatisMapper<${ctx.modelClass}> {
-
+	void addBatch(List<${ctx.modelClass}> ${ctx.modelObj}List);
 }

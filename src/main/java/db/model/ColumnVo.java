@@ -146,4 +146,6 @@ public class ColumnVo {
 	public String sqlServerType;
 	
 	public String pgsqlType;
+	
+	public String mybatisTypeName;
 }

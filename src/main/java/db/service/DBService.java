@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.type.JdbcType;
 import org.beetl.sql.core.JavaType;
 
 import db.model.ColumnVo;
@@ -16,6 +17,7 @@ import db.model.PrimaryKeyVo;
 import db.model.TableVo;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import tool.MybatisTypeTool;
 import tool.NameTool;
 
 @Slf4j
@@ -149,6 +151,8 @@ public class DBService {
 			columnVo.camelColumnName = NameTool.toCamel(columnVo.lowerCaseUnderLineColumnName);
 
 			columnVo.dataType = rs.getInt("DATA_TYPE");
+		
+			columnVo.mybatisTypeName = MybatisTypeTool.getCode(columnVo.dataType);
 			columnVo.typeName = rs.getString("TYPE_NAME");
 			columnVo.columnSize = rs.getInt("COLUMN_SIZE");
 

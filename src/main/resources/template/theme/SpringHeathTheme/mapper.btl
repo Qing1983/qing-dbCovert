@@ -2,4 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="${ctx.daoPackage}.${ctx.daoClass}" >
 
+	<!-- ${ctx.tableCN}批量添加数据 -->
+	<insert id ="addBatch" parameterType="java.util.List" >
+		insert all
+		<foreach collection ="list" item="curItem" index= "index" separator =" ">
+		into ${ctx.tableVo.tableName}
+		( 
+			<% var i=0;for(columnVo in ctx.tableVo.columnVoList) { %>
+   		   		<% if (i==0 ) { %>
+   		   			${columnVo.columnName} 
+   		   		<% } else {%>
+   		   			, ${columnVo.columnName}
+   		   		<% } %>
+			<% i++;} %>
+		)
+		values
+		(
+		<% var j=0; for(columnVo in ctx.tableVo.columnVoList) { %>
+		<% if (j==0 ) { %>
+   			#{curItem.${columnVo.columnName}, jdbcType=${columnVo.mybatisTypeName}}
+   		<% } else {%>
+   			, #{curItem.${columnVo.columnName}, jdbcType=${columnVo.mybatisTypeName}}
+   		<% } %>		
+		<% j++;} %>
+		)
+		</foreach >
+		SELECT 1 FROM DUAL
+	</insert >
+
+
+
+
 </mapper>

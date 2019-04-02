@@ -42,4 +42,12 @@ public interface ${ctx.serviceClass} {
      * @return 
      */
     void update(${ctx.modelClass} ${ctx.modelObj});
+    
+    
+     /**
+     * 新增${ctx.tableCN}多条记录
+     * @param ${ctx.modelObj}List ${ctx.tableCN}列表
+     * @return 
+     */
+    void addBatch(List<${ctx.modelClass}> ${ctx.modelObj}List);
 }

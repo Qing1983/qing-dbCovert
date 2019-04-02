@@ -87,6 +87,16 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
         }
     }
 
+	/**
+     * 新增${ctx.tableCN}多条记录
+     * @param ${ctx.modelObj}List ${ctx.tableCN}列表参数
+     * @return 
+     */
+    @Override
+    public void addBatch(List<${ctx.modelClass}> ${ctx.modelObj}List) {
+        ${ctx.daoObj}.addBatch(${ctx.modelObj}List);
+    }
+
 
 
 }
