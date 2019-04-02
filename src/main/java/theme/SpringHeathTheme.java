@@ -70,7 +70,8 @@ public class SpringHeathTheme {
 	 * @param beetlPath
 	 * @throws Exception
 	 */
-	public SpringHeathTheme(String tableCN, TableVo tableVo, String moduleName, String prefixPackage, String outPath, String beetlPath) throws Exception {
+	public SpringHeathTheme(String tableCN, TableVo tableVo, String moduleName, String prefixPackage, String outPath,
+			String beetlPath) throws Exception {
 		this.tableCN = tableCN;
 		this.tableVo = tableVo;
 		this.moduleName = moduleName;
@@ -128,7 +129,8 @@ public class SpringHeathTheme {
 	 *            模版名称
 	 * @throws Exception
 	 */
-	public void renderFile(String packageName, String className, String objName, String fileSuffix, String templateName) throws Exception {
+	public void renderFile(String packageName, String className, String objName, String fileSuffix, String templateName)
+			throws Exception {
 
 		// 定义输出对应的文件
 		String outFilePath = outPath + "/" + packageName.replace('.', '/') + "/" + className + fileSuffix;
@@ -167,10 +169,12 @@ public class SpringHeathTheme {
 	 */
 	public static void genTheme(DBService dbService) throws Exception {
 		String packagePrefix = "com.greatwall.health.business.";
-		
+
 		HashMap tableMap = new HashMap();
+
+		// 基本患者信息
 		tableMap.put("TBHZJBXX", new ModuleVo("basic", "基本患者信息"));
-		
+
 		// 门诊就诊信息
 		tableMap.put("TBMZGH", new ModuleVo("mz", "门诊挂号表"));
 		tableMap.put("TBMZJZJL", new ModuleVo("mz", "门诊就诊记录表"));
@@ -179,7 +183,7 @@ public class SpringHeathTheme {
 		tableMap.put("TBMZCFZXJL", new ModuleVo("mz", "门诊处方医嘱执行记录"));
 		tableMap.put("TBMZSFHZ", new ModuleVo("mz", "门诊收费汇总表"));
 		tableMap.put("TBMZSFMX", new ModuleVo("mz", "门诊收费明细表"));
-		
+
 		// 住院就诊信息
 		tableMap.put("TBZYJZJL", new ModuleVo("zyjz", "住院就诊记录表"));
 		tableMap.put("TBZKJL", new ModuleVo("zyjz", "转科记录"));
@@ -191,56 +195,55 @@ public class SpringHeathTheme {
 		tableMap.put("TBEMR_YBHLJL", new ModuleVo("zyjz", "一般护理记录"));
 		tableMap.put("TBDZBLSYXX", new ModuleVo("zyjz", "电子病历索引表信息"));
 		tableMap.put("TBEMRCYXJ", new ModuleVo("zyjz", "出院小结"));
-		
+
 		// 实验室检验报告
 		tableMap.put("TBJYZBG", new ModuleVo("jybg", "实验室检验报告主表"));
 		tableMap.put("TBJYXMFZJL", new ModuleVo("jybg", "实验室检验项目分组记录"));
 		tableMap.put("TBJYZBJG", new ModuleVo("jybg", "检验项目指标结果表"));
 		tableMap.put("TBJYXJJG", new ModuleVo("jybg", "细菌结果"));
 		tableMap.put("TBJYYMJG", new ModuleVo("jybg", "药敏结果"));
-		 
+
 		// 医学影像检查报告
 		tableMap.put("TBJCBG", new ModuleVo("jcbg", "医学影像检查报告表—常见检查报告格式"));
 		tableMap.put("TBJCTYBG", new ModuleVo("jcbg", "医学影像检查报告表—通用检查报告格式"));
-		  
+
 		// 住院病案首页报告
 		tableMap.put("TBBASYZTB", new ModuleVo("basy", "住院病案首页主体表"));
 		tableMap.put("TBBASYZDMX", new ModuleVo("basy", "病案首页-诊断明细"));
 		tableMap.put("TBBASYSSMX", new ModuleVo("basy", "病案首页-手术操作明细"));
-		
-		// 手术/诊断明细表 
+
+		// 手术/诊断明细表
 		tableMap.put("TBSSMX", new ModuleVo("mx", "手术明细表"));
 		tableMap.put("TBZDMX", new ModuleVo("mx", "诊断明细表"));
-		
+
 		// 体检业务
 		tableMap.put("TBYLTJBGSY", new ModuleVo("body", "体检业务相关数据"));
 		tableMap.put("TBYLTJFZBG", new ModuleVo("body", "体检分组报告"));
 		tableMap.put("TBYLTJMX", new ModuleVo("body", "体检项目明细表"));
-		
+
 		// 运营监管相关数据
 		tableMap.put("TBCWJSXX", new ModuleVo("cw", "财务结算信息"));
 		tableMap.put("TBCWSFMX", new ModuleVo("cw", "财务结算-收费明细"));
 		tableMap.put("TBCWSFFS", new ModuleVo("cw", "财务结算-收费方式"));
-		
+
 		// 药品信息表
 		tableMap.put("TBYPRKXX", new ModuleVo("cw", "药品出入库信息"));
 		tableMap.put("TBYPKCXX", new ModuleVo("cw", "药品库存信息"));
-		
+
 		// 本地基础字典数据
 		tableMap.put("TBKSXX", new ModuleVo("zd", "医院的科室字典表"));
 		tableMap.put("TBYHRYJBXX", new ModuleVo("zd", "医护人员基本信息表"));
 		tableMap.put("TBYPZD", new ModuleVo("zd", "药品字典"));
 		tableMap.put("TBZLXMZD", new ModuleVo("zd", "诊疗项目字典"));
 		tableMap.put("TBJBZD", new ModuleVo("zd", "疾病字典"));
-		
-		
+
 		// 本地字典与标准映射数据
 		tableMap.put("TBKSYS", new ModuleVo("ys", "科室字典映射"));
 		tableMap.put("TBYPYS", new ModuleVo("ys", "药品字典映射"));
 		tableMap.put("TBJBYS", new ModuleVo("ys", "疾病字典映射"));
 		tableMap.put("TBZLXMYS", new ModuleVo("ys", "诊疗项目映射"));
 		tableMap.put("TBFYLBYS", new ModuleVo("ys", "收费明细费用类别映射"));
-		 
+
 		log.info("==========================================");
 		log.info("生成 spring heath theme 开始");
 		log.info("==========================================");
@@ -249,11 +252,11 @@ public class SpringHeathTheme {
 			ModuleVo curModule = (ModuleVo) tableMap.get(curTableVo.getCamelTableName());
 			if (curModule == null) {
 				log.error("没有配置表或者视图" + curTableVo.getCamelTableName() + "对应的模块");
-			}
-			else if (curModule.isSkip()) {
+			} else if (curModule.isSkip()) {
 				log.info("用户要求跳过" + curModule.getModelName() + "模块中的" + curModule.getTableCN() + "表");
 			} else {
-				SpringHeathTheme fielVo = new SpringHeathTheme(curModule.getTableCN(), curTableVo, curModule.getModelName(), packagePrefix, Config.outDir, Config.theme);
+				SpringHeathTheme fielVo = new SpringHeathTheme(curModule.getTableCN(), curTableVo,
+						curModule.getModelName(), packagePrefix, Config.outDir, Config.theme);
 				fielVo.render();
 			}
 		}
