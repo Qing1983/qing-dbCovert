@@ -138,7 +138,7 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
 				log.info("[脱敏]"+orginName +"=>" +newName + "");
 			}
 			BaseModel baseModel = new BaseModel();
-			baseModel.setType(Global.Type.${ctx.tableVo.tableName});
+			baseModel.setType(Global.Type.${ctx.tableVo.camelTableName});
 			baseModel.setContent(JsonTool.toJSONString(pageInfo.getList()));
 			String message = JsonTool.toJSONString(baseModel);
 			//log.info(message);
