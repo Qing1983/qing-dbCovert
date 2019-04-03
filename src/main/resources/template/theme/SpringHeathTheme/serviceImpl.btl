@@ -11,8 +11,16 @@ import ${ctx.daoPackage}.${ctx.daoClass};
 import ${ctx.modelPackage}.${ctx.modelClass};
 import ${ctx.servicePackage}.${ctx.serviceClass};
 
+import com.greatwall.health.business.db.common.Global;
+import com.greatwall.health.business.tool.RedisReplaceService;
+import com.greatwall.health.framework.activemq.service.IMessageProducerService;
+import com.greatwall.health.framework.model.BaseModel;
+
 import lombok.extern.slf4j.Slf4j;
+import xingkong.tool.core.JsonTool;
+import xingkong.tool.core.OSTool;
 import xingkong.tool.core.web.form.PageForm;
+
 
 @Slf4j
 @Service
@@ -20,6 +28,13 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
 
     @Autowired
     ${ctx.daoClass} ${ctx.daoObj};
+    
+   	@Autowired
+	RedisReplaceService redisNameService;
+
+	@Autowired
+	IMessageProducerService producer;
+    
 
     /**
      * 查看${ctx.tableCN}列表
@@ -89,7 +104,7 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
 
 	/**
      * 新增${ctx.tableCN}多条记录
-     * @param ${ctx.modelObj}List ${ctx.tableCN}列表参数
+     * @param ${ctx.modelObj}List ${ctx.tableCN}列表
      * @return 
      */
     @Override
@@ -97,6 +112,48 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
         ${ctx.daoObj}.addBatch(${ctx.modelObj}List);
     }
 
+
+ 	/**
+     * 处理${ctx.tableCN}脱敏 
+     */
+	@Override
+	public void process() throws UnsupportedEncodingException {
+		${ctx.modelClass} ${ctx.modelObj} = new ${ctx.modelClass}();
+		PageForm pageForm = new PageForm();
+		log.info("[${ctx.tableName}] ${ctx.tableCN}开始脱敏。");
+		int i = 1;
+		while(true) {
+			log.info("[${ctx.tableName]" + i + "次获取数据");
+			pageForm.setPageNo(i);
+			pageForm.setPageSize(Global.PAGE_SIZE);
+
+			PageInfo<${ctx.modelClass}> pageInfo = list(${ctx.modelObj}, pageForm);
+
+			for (${ctx.modelClass} cur${ctx.modelObj} : pageInfo.getList()) {
+				// 替换姓名
+				// String orginName = cur${ctx.modelObj}.getXM();
+				// String newName = redisNameService.replaceName(orginName);
+				// cur${ctx.modelObj}.setXM(newName);
+
+				log.info("[脱敏]"+orginName +"=>" +newName + "");
+			}
+			BaseModel baseModel = new BaseModel();
+			baseModel.setType(Global.Type.${ctx.table});
+			baseModel.setContent(JsonTool.toJSONString(pageInfo.getList()));
+			String message = JsonTool.toJSONString(baseModel);
+			//log.info(message);
+			producer.sendMessage(message);
+			log.info("[脱敏]处理完第"+ pageInfo.getPageNum()+"页");
+
+			if (pageInfo.getSize() < Global.PAGE_SIZE) {
+				break;
+			}
+
+			i++;
+			OSTool.sleepms(100);
+		}
+		log.info("[${ctx.tableName}] ${ctx.tableCN}结束脱敏。");
+	}
 
 
 }

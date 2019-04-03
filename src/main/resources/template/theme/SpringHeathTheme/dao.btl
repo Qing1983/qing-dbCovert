@@ -1,5 +1,6 @@
 package ${ctx.daoPackage};
 
+import java.util.List;
 import ${ctx.modelPackage}.${ctx.modelClass};
 import com.greatwall.health.framework.mapper.MybatisMapper;
 

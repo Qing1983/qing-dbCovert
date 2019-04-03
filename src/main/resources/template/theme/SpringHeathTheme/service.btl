@@ -50,4 +50,12 @@ public interface ${ctx.serviceClass} {
      * @return 
      */
     void addBatch(List<${ctx.modelClass}> ${ctx.modelObj}List);
+    
+    /**
+     *
+     * 
+     */
+    void process() throws UnsupportedEncodingException;
+    
+    
 }
