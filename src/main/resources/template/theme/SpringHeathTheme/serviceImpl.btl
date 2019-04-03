@@ -120,10 +120,10 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
 	public void process() throws UnsupportedEncodingException {
 		${ctx.modelClass} ${ctx.modelObj} = new ${ctx.modelClass}();
 		PageForm pageForm = new PageForm();
-		log.info("[${ctx.tableName}] ${ctx.tableCN}开始脱敏。");
+		log.info("[${ctx.tableVo.tableName}] ${ctx.tableCN}开始脱敏。");
 		int i = 1;
 		while(true) {
-			log.info("[${ctx.tableName]" + i + "次获取数据");
+			log.info("[${ctx.tableVo.tableName}]" + i + "次获取数据");
 			pageForm.setPageNo(i);
 			pageForm.setPageSize(Global.PAGE_SIZE);
 
@@ -138,7 +138,7 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
 				log.info("[脱敏]"+orginName +"=>" +newName + "");
 			}
 			BaseModel baseModel = new BaseModel();
-			baseModel.setType(Global.Type.${ctx.table});
+			baseModel.setType(Global.Type.${ctx.tableVo.tableName});
 			baseModel.setContent(JsonTool.toJSONString(pageInfo.getList()));
 			String message = JsonTool.toJSONString(baseModel);
 			//log.info(message);
@@ -152,7 +152,7 @@ public class ${ctx.implClass} implements ${ctx.serviceClass} {
 			i++;
 			OSTool.sleepms(100);
 		}
-		log.info("[${ctx.tableName}] ${ctx.tableCN}结束脱敏。");
+		log.info("[${ctx.tableVo.tableName}] ${ctx.tableCN}结束脱敏。");
 	}
 
 
