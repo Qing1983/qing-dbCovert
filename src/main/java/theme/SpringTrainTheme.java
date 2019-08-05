@@ -52,7 +52,21 @@ public class SpringTrainTheme {
 	String mapperxmlPackage = "${ctx.moduleName}"; // mapper包名
 	String mapperxmlClass = "${ctx.tableVo.camelTableName}Mapper"; // mapper类名
 	String mapperxmlObj = "";
-
+	
+	
+	String formPackage = "db.${ctx.moduleName}.form"; // form包名
+	String formAddClass =  "${ctx.tableVo.camelTableName}AddForm"; // 添加新对象的form类名
+	String formAddObj = "";
+	
+	String formUpdateClass =  "${ctx.tableVo.camelTableName}UpdateForm"; // 更新新对象的form类名
+	String formUpdateObj = "";
+	
+	String formDeleteClass =  "${ctx.tableVo.camelTableName}DeleteForm"; // 删除新对象的form类名
+	String formDeleteObj = "";
+	
+	String formQueryClass = "${ctx.tableVo.camelTableName}QueryForm"; // 查询新对象的form类名
+	String formQueryObj = "";
+	
 	// ========================================================================
 	// 定义输出文件夹和模版文件夹
 	// ========================================================================
@@ -81,7 +95,7 @@ public class SpringTrainTheme {
 	}
 
 	/**
-	 * 渲染文件名称
+	 * 渲染文件名称，绑定到模板中
 	 * 
 	 * @throws IOException
 	 */
@@ -109,7 +123,20 @@ public class SpringTrainTheme {
 		mapperxmlPackage = "mapper." + BeetlRenderTool.renderText("ctx", (Object) this, mapperxmlPackage);
 		mapperxmlClass = StringTool.upperCaseFirst(BeetlRenderTool.renderText("ctx", (Object) this, mapperxmlClass));
 		mapperxmlObj = StringTool.lowerCaseFirst(mapperxmlClass);
-
+		
+		
+		formPackage = prefixPackage + BeetlRenderTool.renderText("ctx", (Object) this, formPackage);
+		formAddClass = StringTool.upperCaseFirst(BeetlRenderTool.renderText("ctx", (Object) this, formAddClass));
+		formAddObj = StringTool.lowerCaseFirst(formAddClass);
+		
+		formUpdateClass = StringTool.upperCaseFirst(BeetlRenderTool.renderText("ctx", (Object) this, formUpdateClass));
+		formUpdateObj = StringTool.lowerCaseFirst(formUpdateClass);
+		
+		formDeleteClass = StringTool.upperCaseFirst(BeetlRenderTool.renderText("ctx", (Object) this, formDeleteClass));
+		formDeleteObj = StringTool.lowerCaseFirst(formDeleteClass);
+		
+		formQueryClass = StringTool.upperCaseFirst(BeetlRenderTool.renderText("ctx", (Object) this, formQueryClass));
+		formQueryObj = StringTool.lowerCaseFirst(formQueryClass);
 		log.debug(JsonTool.toJSON(this));
 	}
 
