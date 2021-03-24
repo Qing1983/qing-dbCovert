@@ -1,6 +1,7 @@
-# qing-dbCovert
+# peanut1983-codegen
 
-## 轻量级的数据库转换工具
+## 花生的数据库转换工具
+1. 可以把数据库表按照设定的模板进行转换。
 
 # 框架图
 ![框架图](/doc/img/design.png)
